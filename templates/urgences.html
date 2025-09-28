@@ -1,0 +1,215 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Urgences - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-ivoire-darkgreen mb-6">Urgences et Catastrophes Sanitaires</h1>
+    
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Lits réanimation</p>
+                    <h3 class="text-2xl font-bold text-gray-800">248</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +15% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-blue bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-procedures text-ivoire-blue text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Temps réponse urgences</p>
+                    <h3 class="text-2xl font-bold text-gray-800">38 min</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-down"></i> -4 min vs 2022</p>
+                </div>
+                <div class="bg-ivoire-green bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-ambulance text-ivoire-green text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Plans urgence actualisés</p>
+                    <h3 class="text-2xl font-bold text-gray-800">72%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +12% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-orange bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-clipboard-list text-ivoire-orange text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Indice préparation OMS</p>
+                    <h3 class="text-2xl font-bold text-gray-800">54%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +8% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-purple bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-shield-alt text-ivoire-purple text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Capacités d'urgence par région</h2>
+            <div class="h-80">
+                <canvas id="regionalCapacityChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Évolution du temps de réponse</h2>
+            <div class="h-80">
+                <canvas id="responseTimeChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Indicators -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Capacités d'urgence</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Lits urgences</span>
+                    <span class="font-medium">1,425</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Ambulances fonctionnelles</span>
+                    <span class="font-medium">68%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Unités mobiles</span>
+                    <span class="font-medium">42</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Centres de crise</span>
+                    <span class="font-medium">18</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Préparation catastrophes</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Simulations réalisées</span>
+                    <span class="font-medium">45%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Stocks stratégiques</span>
+                    <span class="font-medium">58%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Équipes formées urgences</span>
+                    <span class="font-medium">64%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Plans communication</span>
+                    <span class="font-medium">72%</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Résilience système</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Couverture zones à risque</span>
+                    <span class="font-medium">68%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Coordination intersectorielle</span>
+                    <span class="font-medium">42%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Alertes précoces fonctionnelles</span>
+                    <span class="font-medium">75%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Rétablissement post-crise</span>
+                    <span class="font-medium">58%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Regional Capacity Chart
+    const regionalCapacityCtx = document.getElementById('regionalCapacityChart').getContext('2d');
+    const regionalCapacityChart = new Chart(regionalCapacityCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Abidjan', 'Nord', 'Ouest', 'Est', 'Centre'],
+            datasets: [{
+                label: 'Lits urgences/100k hab.',
+                data: [24, 8, 12, 9, 15],
+                backgroundColor: 'rgba(0, 153, 204, 0.7)'
+            }, {
+                label: 'Ambulances fonctionnelles (%)',
+                data: [85, 45, 58, 52, 65],
+                backgroundColor: 'rgba(255, 102, 0, 0.7)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Capacités'
+                    }
+                }
+            }
+        }
+    });
+
+    // Response Time Chart
+    const responseTimeCtx = document.getElementById('responseTimeChart').getContext('2d');
+    const responseTimeChart = new Chart(responseTimeCtx, {
+        type: 'line',
+        data: {
+            labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+            datasets: [{
+                label: 'Temps réponse moyen (min)',
+                data: [52, 48, 45, 42, 40, 38],
+                borderColor: 'rgb(51, 204, 102)',
+                backgroundColor: 'rgba(51, 204, 102, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: false,
+                    title: {
+                        display: true,
+                        text: 'Temps (minutes)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

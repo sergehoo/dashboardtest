@@ -1,0 +1,597 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Ressources Humaines - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-ivoire-darkgreen mb-6">Ressources Humaines en Santé</h1>
+    
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Médecins/10,000 hab.</p>
+                    <h3 class="text-2xl font-bold text-gray-800">2.4</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +0.2 vs 2022</p>
+                    <p class="text-xs text-gray-500 mt-1">OMS recommandation: 4.5</p>
+                </div>
+                <div class="bg-ivoire-blue bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-user-md text-ivoire-blue text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Infirmiers/10,000 hab.</p>
+                    <h3 class="text-2xl font-bold text-gray-800">8.7</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +0.8 vs 2022</p>
+                    <p class="text-xs text-gray-500 mt-1">Objectif 2025: 12.0</p>
+                </div>
+                <div class="bg-ivoire-green bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-user-nurse text-ivoire-green text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Taux de rotation</p>
+                    <h3 class="text-2xl font-bold text-gray-800">15%</h3>
+                    <p class="text-red-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +2% vs 2022</p>
+                    <p class="text-xs text-gray-500 mt-1">Cible: <12%</p>
+                </div>
+                <div class="bg-ivoire-orange bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-exchange-alt text-ivoire-orange text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Couverture formation</p>
+                    <h3 class="text-2xl font-bold text-gray-800">78%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +12% vs 2022</p>
+                    <p class="text-xs text-gray-500 mt-1">Objectif 2024: 85%</p>
+                </div>
+                <div class="bg-ivoire-purple bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-graduation-cap text-ivoire-purple text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-blue-400">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Taux de postes vacants</p>
+                    <h3 class="text-2xl font-bold text-gray-800">18.5%</h3>
+                    <p class="text-red-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +1.5% vs 2022</p>
+                </div>
+                <div class="bg-blue-400 bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-user-times text-blue-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-green-400">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Satisfaction professionnelle</p>
+                    <h3 class="text-2xl font-bold text-gray-800">68%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +5% vs 2022</p>
+                </div>
+                <div class="bg-green-400 bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-smile-beam text-green-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-yellow-500">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Ratio cadre/non-cadre</p>
+                    <h3 class="text-2xl font-bold text-gray-800">1:3.2</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> Amélioré</p>
+                </div>
+                <div class="bg-yellow-500 bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-balance-scale text-yellow-500 text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-red-400">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Absentéisme moyen</p>
+                    <h3 class="text-2xl font-bold text-gray-800">8.3%</h3>
+                    <p class="text-red-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +0.7% vs 2022</p>
+                </div>
+                <div class="bg-red-400 bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-user-clock text-red-400 text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Répartition du personnel par catégorie</h2>
+            <div class="h-80">
+                <canvas id="staffDistributionChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Évolution des ratios par population</h2>
+            <div class="h-80">
+                <canvas id="ratioEvolutionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Répartition géographique du personnel</h2>
+            <div class="h-80">
+                <canvas id="geographicDistributionChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Indicateurs de performance RH</h2>
+            <div class="h-80">
+                <canvas id="performanceIndicatorsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Regional Analysis Section -->
+    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+        <h2 class="text-xl font-bold text-gray-800 mb-6">Analyse régionale des ressources humaines</h2>
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Région</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Médecins/10k</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Infirmiers/10k</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Postes vacants</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Formation</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Satisfaction</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium">Abidjan</td>
+                        <td class="px-6 py-4 whitespace-nowrap">8.4</td>
+                        <td class="px-6 py-4 whitespace-nowrap">15.2</td>
+                        <td class="px-6 py-4 whitespace-nowrap">12%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">85%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">72%</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium">Nord</td>
+                        <td class="px-6 py-4 whitespace-nowrap">0.8</td>
+                        <td class="px-6 py-4 whitespace-nowrap">4.2</td>
+                        <td class="px-6 py-4 whitespace-nowrap">28%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">45%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">58%</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium">Ouest</td>
+                        <td class="px-6 py-4 whitespace-nowrap">1.2</td>
+                        <td class="px-6 py-4 whitespace-nowrap">6.8</td>
+                        <td class="px-6 py-4 whitespace-nowrap">22%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">62%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">65%</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium">Est</td>
+                        <td class="px-6 py-4 whitespace-nowrap">1.1</td>
+                        <td class="px-6 py-4 whitespace-nowrap">5.9</td>
+                        <td class="px-6 py-4 whitespace-nowrap">25%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">58%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">61%</td>
+                    </tr>
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap font-medium">Centre</td>
+                        <td class="px-6 py-4 whitespace-nowrap">2.4</td>
+                        <td class="px-6 py-4 whitespace-nowrap">8.5</td>
+                        <td class="px-6 py-4 whitespace-nowrap">18%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">68%</td>
+                        <td class="px-6 py-4 whitespace-nowrap">69%</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Detailed Indicators -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Effectifs par spécialité</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Médecins généralistes</span>
+                    <span class="font-medium">2,845</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Spécialistes</span>
+                    <span class="font-medium">1,248</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Infirmiers diplômés</span>
+                    <span class="font-medium">12,458</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Sages-femmes</span>
+                    <span class="font-medium">3,142</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Techniciens de laboratoire</span>
+                    <span class="font-medium">1,856</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Pharmaciens</span>
+                    <span class="font-medium">842</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Répartition géographique</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Personnel urbain</span>
+                    <span class="font-medium">78%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Personnel rural</span>
+                    <span class="font-medium">22%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Abidjan - Médecins/10k</span>
+                    <span class="font-medium">8.4</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Nord - Médecins/10k</span>
+                    <span class="font-medium">0.8</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Zones prioritaires couvertes</span>
+                    <span class="font-medium">42%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Départements sans médecin</span>
+                    <span class="font-medium">18</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Formation et développement</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Formations continues/an</span>
+                    <span class="font-medium">245</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Nouveaux diplômés/an</span>
+                    <span class="font-medium">1,250</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Taux de retention</span>
+                    <span class="font-medium">67%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Budget formation</span>
+                    <span class="font-medium">3.2%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Mobilité internationale</span>
+                    <span class="font-medium">8.5%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Équité genre formation</span>
+                    <span class="font-medium">52%F/48%H</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Additional Detailed Indicators -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Conditions de travail</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Heures supplémentaires/mois</span>
+                    <span class="font-medium">24h</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Charge de travail</span>
+                    <span class="font-medium">68% élevée</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Équipements disponibles</span>
+                    <span class="font-medium">72%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Sécurité au travail</span>
+                    <span class="font-medium">65%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Accès logement</span>
+                    <span class="font-medium">42%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Transport disponible</span>
+                    <span class="font-medium">58%</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Performance et productivité</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Consultations/médecin/jour</span>
+                    <span class="font-medium">28</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Patients/infirmier/jour</span>
+                    <span class="font-medium">42</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Taux d'occupation lits</span>
+                    <span class="font-medium">78%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Efficacité administrative</span>
+                    <span class="font-medium">65%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Utilisation technologies</span>
+                    <span class="font-medium">58%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Innovation pratiques</span>
+                    <span class="font-medium">32%</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Politiques RH et perspectives</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Planification besoins futurs</span>
+                    <span class="font-medium">68%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Programmes incitatifs</span>
+                    <span class="font-medium">45%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Mobilité interne</span>
+                    <span class="font-medium">28%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Partenariats formation</span>
+                    <span class="font-medium">15</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Recherche en RH santé</span>
+                    <span class="font-medium">8 projets</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Indice développement RH</span>
+                    <span class="font-medium">6.2/10</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Staff Distribution Chart
+    const staffDistributionCtx = document.getElementById('staffDistributionChart').getContext('2d');
+    const staffDistributionChart = new Chart(staffDistributionCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Médecins', 'Infirmiers', 'Sages-femmes', 'Techniciens', 'Administratifs', 'Autres'],
+            datasets: [{
+                data: [12, 42, 8, 15, 18, 5],
+                backgroundColor: [
+                    'rgba(0, 153, 204, 0.7)',
+                    'rgba(51, 204, 102, 0.7)',
+                    'rgba(255, 102, 0, 0.7)',
+                    'rgba(153, 102, 255, 0.7)',
+                    'rgba(255, 206, 86, 0.7)',
+                    'rgba(75, 192, 192, 0.7)'
+                ],
+                borderWidth: 2,
+                borderColor: '#fff'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return `F CFA{context.label}: F CFA{context.parsed}%`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+
+    // Ratio Evolution Chart
+    const ratioEvolutionCtx = document.getElementById('ratioEvolutionChart').getContext('2d');
+    const ratioEvolutionChart = new Chart(ratioEvolutionCtx, {
+        type: 'line',
+        data: {
+            labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+            datasets: [{
+                label: 'Médecins/10,000 hab.',
+                data: [1.8, 1.9, 2.0, 2.1, 2.2, 2.4],
+                borderColor: 'rgb(0, 153, 204)',
+                backgroundColor: 'rgba(0, 153, 204, 0.1)',
+                tension: 0.4,
+                fill: true,
+                borderWidth: 3
+            }, {
+                label: 'Infirmiers/10,000 hab.',
+                data: [6.2, 6.8, 7.2, 7.6, 8.1, 8.7],
+                borderColor: 'rgb(51, 204, 102)',
+                backgroundColor: 'rgba(51, 204, 102, 0.1)',
+                tension: 0.4,
+                fill: true,
+                borderWidth: 3
+            }, {
+                label: 'Objectif OMS',
+                data: [4.5, 4.5, 4.5, 4.5, 4.5, 4.5],
+                borderColor: 'rgb(255, 102, 0)',
+                borderDash: [5, 5],
+                borderWidth: 2,
+                fill: false,
+                pointRadius: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Ratio/10,000 habitants'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            },
+            plugins: {
+                tooltip: {
+                    mode: 'index',
+                    intersect: false
+                }
+            }
+        }
+    });
+
+    // Geographic Distribution Chart
+    const geographicDistributionCtx = document.getElementById('geographicDistributionChart').getContext('2d');
+    const geographicDistributionChart = new Chart(geographicDistributionCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Abidjan', 'Nord', 'Ouest', 'Est', 'Centre', 'Sud', 'Rural'],
+            datasets: [{
+                label: 'Médecins/10k hab.',
+                data: [8.4, 0.8, 1.2, 1.1, 2.4, 1.8, 0.6],
+                backgroundColor: 'rgba(0, 153, 204, 0.7)',
+                borderColor: 'rgba(0, 153, 204, 1)',
+                borderWidth: 1
+            }, {
+                label: 'Infirmiers/10k hab.',
+                data: [15.2, 4.2, 6.8, 5.9, 8.5, 7.2, 3.4],
+                backgroundColor: 'rgba(51, 204, 102, 0.7)',
+                borderColor: 'rgba(51, 204, 102, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Ratio/10,000 habitants'
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                },
+                x: {
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    });
+
+    // Performance Indicators Chart
+    const performanceIndicatorsCtx = document.getElementById('performanceIndicatorsChart').getContext('2d');
+    const performanceIndicatorsChart = new Chart(performanceIndicatorsCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Formation', 'Retention', 'Satisfaction', 'Productivité', 'Équité', 'Innovation'],
+            datasets: [{
+                label: 'Performance RH 2023',
+                data: [78, 67, 68, 72, 65, 58],
+                backgroundColor: 'rgba(0, 153, 204, 0.2)',
+                borderColor: 'rgba(0, 153, 204, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(0, 153, 204, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(0, 153, 204, 1)'
+            }, {
+                label: 'Objectif 2025',
+                data: [85, 75, 80, 85, 75, 70],
+                backgroundColor: 'rgba(51, 204, 102, 0.2)',
+                borderColor: 'rgba(51, 204, 102, 1)',
+                borderWidth: 2,
+                borderDash: [5, 5],
+                pointBackgroundColor: 'rgba(51, 204, 102, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(51, 204, 102, 1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100,
+                    ticks: {
+                        stepSize: 20
+                    },
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.1)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

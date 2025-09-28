@@ -1,0 +1,249 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Santé Communautaire - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <!-- HEADER -->
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-3xl font-extrabold text-ivoire-darkgreen">Santé Communautaire</h1>
+      <p class="text-gray-500">Vue consolidée · mise à jour {{ last_update|default:"--/--/----" }}</p>
+    </div>
+    <div class="flex flex-wrap gap-2 items-center">
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Période : 2025 (YTD)</option>
+        <option>2024</option>
+        <option>2023</option>
+      </select>
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Niveau : National</option>
+        <option>Régional</option>
+        <option>District</option>
+      </select>
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Zone : Toutes</option>
+        <option>Urbain</option>
+        <option>Rural</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- KPI STRIP 1 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Agents santé communautaire</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_asc_total|default:"5,248" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +12% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-blue/10 p-3 rounded-full"><i class="fas fa-user-md text-ivoire-blue text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Ménages visités</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_menages|default:"45%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +8% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-green/10 p-3 rounded-full"><i class="fas fa-home text-ivoire-green text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Dépistage communautaire</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_depistage|default:"28%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +6% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-orange/10 p-3 rounded-full"><i class="fas fa-vial text-ivoire-orange text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Participation communautaire</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_participation|default:"58%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +9% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-purple/10 p-3 rounded-full"><i class="fas fa-users text-ivoire-purple text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI STRIP 2 (Nouveaux indicateurs) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-emerald-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">ASC actifs (≥1 activité/mois)</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_actifs|default:"81%" }}</h3>
+          <p class="text-gray-500 text-xs">Objectif ≥ 85%</p>
+        </div>
+        <div class="bg-emerald-500/10 p-3 rounded-full"><i class="fas fa-check-circle text-emerald-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-sky-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Supervision mensuelle</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_supervision|default:"65%" }}</h3>
+          <p class="text-gray-500 text-xs">Visites de supervision réalisées</p>
+        </div>
+        <div class="bg-sky-500/10 p-3 rounded-full"><i class="fas fa-clipboard-check text-sky-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-rose-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Références complétées</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_ref_complete|default:"72%" }}</h3>
+          <p class="text-gray-500 text-xs">Suivi jusqu'à prise en charge</p>
+        </div>
+        <div class="bg-rose-500/10 p-3 rounded-full"><i class="fas fa-exchange-alt text-rose-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Disponibilité kits essentiels</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_kits|default:"76%" }}</h3>
+          <p class="text-gray-500 text-xs">RDT, ACT, ORS+Zinc, contraceptifs</p>
+        </div>
+        <div class="bg-amber-500/10 p-3 rounded-full"><i class="fas fa-box-open text-amber-600 text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS BLOCK 1 -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Activités communautaires par type</h2>
+      <div class="h-80"><canvas id="communityActivitiesChart"></canvas></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Couverture géographique des ASC</h2>
+      <div class="h-80"><canvas id="ascCoverageChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- CHARTS BLOCK 2 (Nouveaux) -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">Tendance des visites à domicile</h2>
+      <p class="text-sm text-gray-500 mb-4">Nombre de visites / mois</p>
+      <div class="h-80"><canvas id="homeVisitsTrendChart"></canvas></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">Disponibilité des intrants communautaires</h2>
+      <p class="text-sm text-gray-500 mb-4">% sites communautaires avec stock suffisant</p>
+      <div class="h-80"><canvas id="commoditiesAvailabilityChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- DÉTAILS INDICATEURS -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Agents de santé communautaire</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Ratio agent/population</span><span class="font-medium">{{ ratio_asc_pop|default:"1/4,200" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Formation complète</span><span class="font-medium">{{ asc_formes|default:"78%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Rétention 1 an</span><span class="font-medium">{{ asc_retention|default:"82%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Supervision régulière</span><span class="font-medium">{{ asc_supervision|default:"65%" }}</span></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Interventions communautaires</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Visites à domicile</span><span class="font-medium">{{ visites_domicile|default:"285k/mois" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Séances éducation</span><span class="font-medium">{{ seances_edu|default:"12,400/mois" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Dépistage VIH (positivité)</span><span class="font-medium">{{ vih_pos|default:"2.1%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Suivi TB communautaire</span><span class="font-medium">{{ tb_suivi|default:"64%" }}</span></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Participation communautaire</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Organisations impliquées</span><span class="font-medium">{{ org_impliquees|default:"428" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Comités santé fonctionnels</span><span class="font-medium">{{ comites_fonctionnels|default:"62%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Participation femmes</span><span class="font-medium">{{ part_femmes|default:"58%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Budget participatif</span><span class="font-medium">{{ budget_part|default:"12%" }}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP LISTS -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Top 10 districts — couverture ASC</h3>
+      <ol class="list-decimal pl-5 space-y-2">
+        {% for d in top_districts %}
+          <li class="flex justify-between"><span class="text-gray-600">{{ d.nom }}</span><span class="font-semibold text-emerald-600">{{ d.couverture }}%</span></li>
+        {% empty %}
+          {% for i in "1234567890" %}
+            <li class="flex justify-between"><span class="text-gray-600">District {{ forloop.counter }}</span><span class="font-semibold text-emerald-600">{{ 60|add:forloop.counter }}%</span></li>
+          {% endfor %}
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Références — statut d'issue</h3>
+      <div class="h-72"><canvas id="referralOutcomeChart"></canvas></div>
+      <p class="text-sm text-gray-500 mt-3">Complétées / En cours / Non abouties</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 1) Activités communautaires
+  new Chart(document.getElementById('communityActivitiesChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['Visites domicile', 'Éducation santé', 'Dépistage', 'Vaccination', 'Suivi patients'],
+      datasets: [{ data: [35, 25, 15, 12, 13], backgroundColor: ['rgba(0,153,204,.7)','rgba(51,204,102,.7)','rgba(255,102,0,.7)','rgba(153,102,255,.7)','rgba(255,206,86,.7)'] }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'right' } } }
+  });
+
+  // 2) Couverture ASC
+  new Chart(document.getElementById('ascCoverageChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Abidjan', 'Nord', 'Ouest', 'Est', 'Centre', 'Rural'],
+      datasets: [{ label: 'Population couverte (%)', data: [85,45,58,42,65,38], backgroundColor: 'rgba(51,204,102,.7)', borderRadius: 8 }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:100, title:{display:true,text:'Population couverte (%)'} }, x:{ grid:{ display:false } } } }
+  });
+
+  // 3) Tendance visites à domicile
+  new Chart(document.getElementById('homeVisitsTrendChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'],
+      datasets: [{ label: 'Visites (k)', data: [250,262,271,280,290,305,298,312,320,330,338,345], borderColor:'#4f46e5', backgroundColor:'#4f46e522', tension:.35, fill:true }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true }, x:{ grid:{ display:false } } } }
+  });
+
+  // 4) Disponibilité intrants communautaires
+  new Chart(document.getElementById('commoditiesAvailabilityChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['RDT palu', 'ACT', 'ORS+Zinc', 'Antibio iCCM', 'Contraceptifs', 'Gants'],
+      datasets: [{ label:'Sites avec stock suffisant (%)', data:[78,73,69,62,58,81], backgroundColor:['#06b6d4','#10b981','#eab308','#ef4444','#8b5cf6','#0ea5e9'], borderRadius:8 }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:100 }, x:{ grid:{ display:false } } } }
+  });
+
+  // 5) Références — issue
+  new Chart(document.getElementById('referralOutcomeChart').getContext('2d'), {
+    type: 'pie',
+    data: { labels:['Complétées','En cours','Non abouties'], datasets:[{ data:[72,18,10], backgroundColor:['#10b981','#f59e0b','#ef4444'] }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'right' } } }
+  });
+});
+</script>
+{% endblock %}

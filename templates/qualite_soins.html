@@ -1,0 +1,214 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Qualité des Soins - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-ivoire-darkgreen mb-6">Qualité et Performance des Soins</h1>
+    
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Satisfaction patients</p>
+                    <h3 class="text-2xl font-bold text-gray-800">82%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +4% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-blue bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-smile text-ivoire-blue text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Taux de réadmission</p>
+                    <h3 class="text-2xl font-bold text-gray-800">8.2%</h3>
+                    <p class="text-red-500 text-sm mt-1"><i class="fas fa-arrow-down"></i> -1.5% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-green bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-procedures text-ivoire-green text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Infections nosocomiales</p>
+                    <h3 class="text-2xl font-bold text-gray-800">4.7%</h3>
+                    <p class="text-red-500 text-sm mt-1"><i class="fas fa-arrow-down"></i> -0.8% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-orange bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-bacteria text-ivoire-orange text-xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Protocoles respectés</p>
+                    <h3 class="text-2xl font-bold text-gray-800">78%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +5% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-purple bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-clipboard-check text-ivoire-purple text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Indicateurs de qualité par région</h2>
+            <div class="h-80">
+                <canvas id="qualityIndicatorsChart"></canvas>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Évolution des infections nosocomiales</h2>
+            <div class="h-80">
+                <canvas id="infectionTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Indicators -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Sécurité des patients</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Erreurs médicamenteuses</span>
+                    <span class="font-medium">2.8%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Chutes patients</span>
+                    <span class="font-medium">1.2%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Événements indésirables</span>
+                    <span class="font-medium">3.5%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Déclaration incidents</span>
+                    <span class="font-medium">65%</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Efficacité des soins</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Taux de guérison TB</span>
+                    <span class="font-medium">85%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Contrôle hypertension</span>
+                    <span class="font-medium">42%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Suivi diabète</span>
+                    <span class="font-medium">58%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Dépistage cancer</span>
+                    <span class="font-medium">35%</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Expérience patient</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Délai d'attente</span>
+                    <span class="font-medium">32 min</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Communication soignants</span>
+                    <span class="font-medium">76%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Confidentialité respectée</span>
+                    <span class="font-medium">88%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Recommanderait structure</span>
+                    <span class="font-medium">79%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Quality Indicators Chart
+    const qualityIndicatorsCtx = document.getElementById('qualityIndicatorsChart').getContext('2d');
+    const qualityIndicatorsChart = new Chart(qualityIndicatorsCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Satisfaction', 'Sécurité', 'Efficacité', 'Délais', 'Communication', 'Équipements'],
+            datasets: [{
+                label: 'Abidjan',
+                data: [85, 82, 78, 75, 80, 88],
+                borderColor: 'rgb(0, 153, 204)',
+                backgroundColor: 'rgba(0, 153, 204, 0.2)'
+            }, {
+                label: 'Rural',
+                data: [68, 65, 62, 58, 64, 55],
+                borderColor: 'rgb(255, 102, 0)',
+                backgroundColor: 'rgba(255, 102, 0, 0.2)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+
+    // Infection Trend Chart
+    const infectionTrendCtx = document.getElementById('infectionTrendChart').getContext('2d');
+    const infectionTrendChart = new Chart(infectionTrendCtx, {
+        type: 'line',
+        data: {
+            labels: ['2020', '2021', '2022', '2023'],
+            datasets: [{
+                label: 'Infections nosocomiales (%)',
+                data: [6.8, 5.9, 5.2, 4.7],
+                borderColor: 'rgb(255, 102, 0)',
+                backgroundColor: 'rgba(255, 102, 0, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Taux d\'infection (%)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

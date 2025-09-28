@@ -1,0 +1,274 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Infrastructures - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <!-- HEADER -->
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-3xl font-extrabold text-ivoire-darkgreen">Infrastructures & Équipements</h1>
+      <p class="text-gray-500">Vue consolidée · mise à jour {{ last_update|default:"--/--/----" }}</p>
+    </div>
+    <div class="flex flex-wrap gap-2 items-center">
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Période : 2025 (YTD)</option>
+        <option>2024</option>
+        <option>2023</option>
+      </select>
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Niveau : National</option>
+        <option>Régional</option>
+        <option>District</option>
+      </select>
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Région : Toutes</option>
+        <option>Abidjan</option>
+        <option>Nord</option>
+        <option>Ouest</option>
+        <option>Est</option>
+        <option>Centre</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- KPI STRIP 1 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Structures sanitaires -->
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Structures sanitaires</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_structures|default:"1,248" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +3% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-blue/10 p-3 rounded-full"><i class="fas fa-hospital text-ivoire-blue text-xl"></i></div>
+      </div>
+    </div>
+    <!-- Fonctionnalité équipements -->
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Fonctionnalité équipements</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_fonctionnalite|default:"72%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +8% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-green/10 p-3 rounded-full"><i class="fas fa-cogs text-ivoire-green text-xl"></i></div>
+      </div>
+    </div>
+    <!-- Accès à l'eau -->
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Accès à l'eau</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_eau|default:"78%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +5% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-orange/10 p-3 rounded-full"><i class="fas fa-tint text-ivoire-orange text-xl"></i></div>
+      </div>
+    </div>
+    <!-- Connectivité SIH -->
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Connectivité SIH</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_sih|default:"45%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +15% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-purple/10 p-3 rounded-full"><i class="fas fa-wifi text-ivoire-purple text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI STRIP 2 (Nouveaux indices) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-emerald-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Uptime Électricité</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_uptime_elec|default:"93%" }}</h3>
+          <p class="text-gray-500 text-xs">Moyenne mensuelle</p>
+        </div>
+        <div class="bg-emerald-500/10 p-3 rounded-full"><i class="fas fa-bolt text-emerald-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-sky-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Accès Internet</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_internet|default:"52%" }}</h3>
+          <p class="text-gray-500 text-xs">Bande passante ≥ 10 Mbps</p>
+        </div>
+        <div class="bg-sky-500/10 p-3 rounded-full"><i class="fas fa-network-wired text-sky-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-rose-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Tickets maintenance ouverts</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_tickets|default:"128" }}</h3>
+          <p class="text-rose-600 text-sm mt-1"><i class="fas fa-exclamation-triangle"></i> +12 cette semaine</p>
+        </div>
+        <div class="bg-rose-500/10 p-3 rounded-full"><i class="fas fa-tools text-rose-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Délai moyen approvisionnement</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_leadtime|default:"22 j" }}</h3>
+          <p class="text-gray-500 text-xs">Derniers 90 jours</p>
+        </div>
+        <div class="bg-amber-500/10 p-3 rounded-full"><i class="fas fa-shipping-fast text-amber-600 text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS BLOCK 1 -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Répartition des structures par type</h2>
+      <div class="h-80"><canvas id="structureTypeChart"></canvas></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Fonctionnalité des équipements par région</h2>
+      <div class="h-80"><canvas id="equipmentFunctionalityChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- CHARTS BLOCK 2 (Nouveaux) -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Connectivité numérique (SIH / DPI / LIS)</h2>
+      <div class="h-80"><canvas id="digitalConnectivityChart"></canvas></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Services de base — couverture par région</h2>
+      <div class="h-80"><canvas id="basicServicesChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- DÉTAILS INDICATEURS -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Types de structures</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Centres de santé urbains</span><span class="font-medium">{{ infra_csu|default:"248" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Centres de santé ruraux</span><span class="font-medium">{{ infra_csr|default:"842" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Hôpitaux régionaux</span><span class="font-medium">{{ infra_chr|default:"34" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Hôpitaux universitaires</span><span class="font-medium">{{ infra_chu|default:"6" }}</span></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Équipements critiques</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Imagerie médicale</span><span class="font-medium">{{ eqp_imagerie|default:"68%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Laboratoires</span><span class="font-medium">{{ eqp_labo|default:"72%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Blocs opératoires</span><span class="font-medium">{{ eqp_blocs|default:"61%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Soins intensifs</span><span class="font-medium">{{ eqp_usi|default:"45%" }}</span></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Services de base</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Électricité 24h/24</span><span class="font-medium">{{ svc_elec|default:"65%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Eau courante</span><span class="font-medium">{{ svc_eau|default:"78%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Assainissement</span><span class="font-medium">{{ svc_assain|default:"71%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Internet</span><span class="font-medium">{{ svc_net|default:"52%" }}</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHARTS SCRIPTS -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 1) Structures par type (pie)
+  const structureTypeCtx = document.getElementById('structureTypeChart').getContext('2d');
+  new Chart(structureTypeCtx, {
+    type: 'pie',
+    data: {
+      labels: ['CSU', 'CSR', 'Hôpitaux régionaux', 'Hôpitaux universitaires', 'Spécialisés'],
+      datasets: [{
+        data: [20, 67, 3, 0.5, 9.5],
+        backgroundColor: [
+          'rgba(0, 153, 204, 0.7)',
+          'rgba(51, 204, 102, 0.7)',
+          'rgba(255, 102, 0, 0.7)',
+          'rgba(153, 102, 255, 0.7)',
+          'rgba(255, 206, 86, 0.7)'
+        ],
+        borderWidth: 0
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'right' } } }
+  });
+
+  // 2) Fonctionnalité équipements par région (bar)
+  const equipmentFunctionalityCtx = document.getElementById('equipmentFunctionalityChart').getContext('2d');
+  new Chart(equipmentFunctionalityCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Abidjan', 'Nord', 'Ouest', 'Est', 'Centre'],
+      datasets: [
+        { label: 'Imagerie médicale', data: [85, 45, 52, 48, 68], backgroundColor: 'rgba(0, 153, 204, 0.7)', borderRadius: 8 },
+        { label: 'Laboratoires', data: [78, 42, 58, 45, 65], backgroundColor: 'rgba(51, 204, 102, 0.7)', borderRadius: 8 },
+        { label: 'Blocs opératoires', data: [72, 38, 45, 42, 58], backgroundColor: 'rgba(255, 102, 0, 0.7)', borderRadius: 8 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        y: { beginAtZero: true, max: 100, title: { display: true, text: 'Taux de fonctionnalité (%)' } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+
+  // 3) Connectivité numérique (stacked bar)
+  const digitalConnectivityCtx = document.getElementById('digitalConnectivityChart').getContext('2d');
+  new Chart(digitalConnectivityCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Abidjan', 'Nord', 'Ouest', 'Est', 'Centre'],
+      datasets: [
+        { label: 'SIH', data: [62, 35, 41, 38, 49], backgroundColor: 'rgba(99, 102, 241, 0.7)', borderRadius: 6 },
+        { label: 'DPI', data: [54, 29, 33, 31, 44], backgroundColor: 'rgba(14, 165, 233, 0.7)', borderRadius: 6 },
+        { label: 'LIS', data: [47, 24, 29, 27, 36], backgroundColor: 'rgba(16, 185, 129, 0.7)', borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: {
+        x: { stacked: true, grid: { display: false } },
+        y: { stacked: true, beginAtZero: true, max: 100, title: { display: true, text: 'Établissements connectés (%)' } }
+      }
+    }
+  });
+
+  // 4) Services de base par région (grouped bars)
+  const basicServicesCtx = document.getElementById('basicServicesChart').getContext('2d');
+  new Chart(basicServicesCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Abidjan', 'Nord', 'Ouest', 'Est', 'Centre'],
+      datasets: [
+        { label: 'Électricité 24h', data: [92, 58, 63, 61, 71], backgroundColor: 'rgba(250, 204, 21, 0.7)', borderRadius: 6 },
+        { label: 'Eau courante', data: [95, 61, 67, 64, 76], backgroundColor: 'rgba(59, 130, 246, 0.7)', borderRadius: 6 },
+        { label: 'Assainissement', data: [88, 54, 59, 57, 69], backgroundColor: 'rgba(234, 88, 12, 0.7)', borderRadius: 6 },
+        { label: 'Internet (≥10 Mbps)', data: [78, 32, 39, 36, 48], backgroundColor: 'rgba(20, 184, 166, 0.7)', borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      plugins: { legend: { position: 'top' } },
+      scales: { y: { beginAtZero: true, max: 100 }, x: { grid: { display:false } } }
+    }
+  });
+});
+</script>
+{% endblock %}

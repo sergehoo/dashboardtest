@@ -1,0 +1,263 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Santé Publique - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <!-- HEADER -->
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-3xl font-extrabold text-ivoire-darkgreen">Santé Publique & Surveillance Épidémiologique</h1>
+      <p class="text-gray-500">Vue consolidée · mise à jour {{ last_update|default:"--/--/----" }}</p>
+    </div>
+    <div class="flex flex-wrap gap-2 items-center">
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Période : 2025 (YTD)</option>
+        <option>2024</option>
+        <option>2023</option>
+      </select>
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Niveau : National</option>
+        <option>Régional</option>
+        <option>District</option>
+      </select>
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Pathologie : Toutes</option>
+        <option>Paludisme</option>
+        <option>Rougeole</option>
+        <option>Dengue</option>
+        <option>Choléra</option>
+        <option>COVID-19</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- KPI STRIP 1 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Incidence paludisme</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_pal_inc|default:"125.8/1000" }}</h3>
+          <p class="text-red-600 text-sm mt-1"><i class="fas fa-arrow-down"></i> -12% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-blue/10 p-3 rounded-full"><i class="fas fa-bug text-ivoire-blue text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Couverture vaccination (Penta3)</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_cov_vacc|default:"78%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +5% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-green/10 p-3 rounded-full"><i class="fas fa-syringe text-ivoire-green text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Délai détection épidémie</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_detect_delay|default:"3.2 j" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-down"></i> -1.1 j vs 2024</p>
+        </div>
+        <div class="bg-ivoire-orange/10 p-3 rounded-full"><i class="fas fa-clock text-ivoire-orange text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Alertes traitées</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_alertes|default:"94%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +6% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-purple/10 p-3 rounded-full"><i class="fas fa-bell text-ivoire-purple text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI STRIP 2 (Nouveaux indicateurs) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-emerald-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Taux de positivité (global)</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_positivite|default:"7.9%" }}</h3>
+          <p class="text-gray-500 text-xs">PCR/RDT agrégé</p>
+        </div>
+        <div class="bg-emerald-500/10 p-3 rounded-full"><i class="fas fa-vial text-emerald-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-sky-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Délai labo (échantillon → résultat)</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_tat|default:"36 h" }}</h3>
+          <p class="text-gray-500 text-xs">TAT moyen</p>
+        </div>
+        <div class="bg-sky-500/10 p-3 rounded-full"><i class="fas fa-flask text-sky-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-rose-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Districts avec plan de riposte</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_riposte|default:"83%" }}</h3>
+          <p class="text-gray-500 text-xs">Plan fonctionnel validé</p>
+        </div>
+        <div class="bg-rose-500/10 p-3 rounded-full"><i class="fas fa-clipboard-check text-rose-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Couverture surveillance syndromique</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_syndro|default:"72%" }}</h3>
+          <p class="text-gray-500 text-xs">Sites rapportant en temps réel</p>
+        </div>
+        <div class="bg-amber-500/10 p-3 rounded-full"><i class="fas fa-wave-square text-amber-600 text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS BLOCK 1 -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Incidence MDO (sélection)</h2>
+      <div class="h-80"><canvas id="diseaseIncidenceChart"></canvas></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Couverture vaccinale par antigène</h2>
+      <div class="h-80"><canvas id="vaccinationCoverageChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- CHARTS BLOCK 2 (Nouveaux) -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">Tendance hebdo — alertes & cas</h2>
+      <p class="text-sm text-gray-500 mb-4">Comparaison EBS (basée événements) vs IBS (basée indicateurs)</p>
+      <div class="h-80"><canvas id="alertsTrendChart"></canvas></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-2">Taux de positivité par maladie</h2>
+      <p class="text-sm text-gray-500 mb-4">% échantillons positifs / testés</p>
+      <div class="h-80"><canvas id="positivityByDiseaseChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- DÉTAILS INDICATEURS -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Surveillance épidémiologique</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Délai déclaration</span><span class="font-medium">{{ delay_decl|default:"1.8 j" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Laboratoires fonctionnels</span><span class="font-medium">{{ labs_ok|default:"65%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Tests réalisés / mois</span><span class="font-medium">{{ tests_mois|default:"42,500" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Exhaustivité rapports (DHS2)</span><span class="font-medium">{{ exhaustivite|default:"88%" }}</span></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Prévention & contrôle</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Campagnes sensibilisation</span><span class="font-medium">{{ campagnes|default:"48/an" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Dépistage VIH réalisé</span><span class="font-medium">{{ vih_dep|default:"1.2M" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Moustiquaires distribuées</span><span class="font-medium">{{ mib|default:"2.8M" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Eau potable — couverture</span><span class="font-medium">{{ eau|default:"82%" }}</span></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Préparation aux urgences</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Plans urgence actualisés</span><span class="font-medium">{{ plans_ok|default:"72%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Simulations réalisées</span><span class="font-medium">{{ sims|default:"45%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Stocks stratégiques</span><span class="font-medium">{{ stocks_strat|default:"58%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Équipes formées</span><span class="font-medium">{{ equipes|default:"64%" }}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP LISTS -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Top 10 districts — incidence rougeole</h3>
+      <ol class="list-decimal pl-5 space-y-2">
+        {% for d in top_measles %}
+          <li class="flex justify-between"><span class="text-gray-600">{{ d.nom }}</span><span class="font-semibold text-rose-600">{{ d.incidence }}/100k</span></li>
+        {% empty %}
+          {% for i in "1234567890" %}
+            <li class="flex justify-between"><span class="text-gray-600">District {{ forloop.counter }}</span><span class="font-semibold text-rose-600">{{ 10|add:forloop.counter }}</span></li>
+          {% endfor %}
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Abandon vaccinal (Drop-out DTP1→DTP3)</h3>
+      <div class="h-72"><canvas id="dropoutChart"></canvas></div>
+      <p class="text-sm text-gray-500 mt-3">Cible < 10%</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 1) Incidence MDO (bar)
+  new Chart(document.getElementById('diseaseIncidenceChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Paludisme', 'VIH', 'Tuberculose', 'Rougeole', 'Choléra', 'Dengue'],
+      datasets: [{
+        label: 'Incidence/100,000 hab.',
+        data: [12580, 280, 132, 45, 4, 87],
+        backgroundColor: [
+          'rgba(0,153,204,.7)','rgba(51,204,102,.7)','rgba(255,102,0,.7)','rgba(153,102,255,.7)','rgba(255,206,86,.7)','rgba(75,192,192,.7)'
+        ],
+        borderRadius: 8
+      }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, title:{display:true,text:'Incidence/100,000 habitants'} }, x:{ grid:{display:false} } } }
+  });
+
+  // 2) Couverture vaccinale (bar)
+  new Chart(document.getElementById('vaccinationCoverageChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['BCG', 'Polio', 'Rougeole', 'Hépatite B', 'DTC', 'Fièvre jaune'],
+      datasets: [{ label: 'Couverture (%)', data: [89,85,76,82,84,79], backgroundColor: 'rgba(51,204,102,.7)', borderRadius:8 }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:100, title:{display:true,text:'Couverture vaccinale (%)'} }, x:{ grid:{display:false} } } }
+  });
+
+  // 3) Tendances alertes & cas (line multi)
+  new Chart(document.getElementById('alertsTrendChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: ['S1','S2','S3','S4','S5','S6','S7','S8','S9','S10','S11','S12'],
+      datasets: [
+        { label: 'Alertes EBS', data: [30,28,34,32,36,40,38,41,39,42,44,47], borderColor:'#ef4444', backgroundColor:'#ef444422', fill:true, tension:.35 },
+        { label: 'Alertes IBS', data: [22,24,23,25,26,27,29,31,30,32,33,34], borderColor:'#3b82f6', backgroundColor:'#3b82f622', fill:true, tension:.35 },
+        { label: 'Cas confirmés', data: [12,11,15,13,16,18,17,19,18,20,21,22], borderColor:'#10b981', backgroundColor:'#10b98122', fill:true, tension:.35 }
+      ]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true }, x:{ grid:{ display:false } } }, plugins:{ legend:{ position:'top' } } }
+  });
+
+  // 4) Positivité par maladie (horizontal bar)
+  new Chart(document.getElementById('positivityByDiseaseChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Paludisme','Rougeole','Choléra','Dengue','COVID-19'],
+      datasets: [{ label:'Taux de positivité (%)', data:[18,9,4,13,6], backgroundColor:'#8b5cf6', borderRadius:8 }]
+    },
+    options: { indexAxis:'y', responsive:true, maintainAspectRatio:false, scales:{ x:{ beginAtZero:true, max:100 }, y:{ grid:{ display:false } } } }
+  });
+
+  // 5) Drop-out vaccinal (bar)
+  new Chart(document.getElementById('dropoutChart').getContext('2d'), {
+    type: 'bar',
+    data: { labels:['Abidjan','Nord','Ouest','Est','Centre'], datasets:[{ label:'Drop-out DTP1→DTP3 (%)', data:[6,12,9,11,8], backgroundColor:'#f59e0b', borderRadius:8 }] },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:30 }, x:{ grid:{ display:false } } } }
+  });
+});
+</script>
+{% endblock %}

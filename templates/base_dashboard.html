@@ -1,10 +1,218 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-<body>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Tableau de Bord National de la Santé - Côte d'Ivoire{% endblock %}</title>
 
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            'ivoire-blue': '#0099CC',
+            'ivoire-orange': '#FF6600',
+            'ivoire-green': '#33CC66',
+            'ivoire-darkgreen': '#133501',
+            'ivoire-purple': '#9966CC',
+          },
+          boxShadow: {
+            'header': '0 8px 30px rgba(0,0,0,0.06)'
+          },
+          keyframes: {
+            fadeIn: { '0%': {opacity:0, transform:'translateY(6px)'}, '100%': {opacity:1, transform:'translateY(0)'} },
+            shimmer: { '100%': { transform: 'translateX(100%)' } },
+          },
+          animation: {
+            fadeIn: 'fadeIn .5s ease-out',
+            shimmer: 'shimmer 1.25s infinite linear',
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Icons & Charts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* Underline hover animation for nav */
+    .link-underline { position: relative; }
+    .link-underline::after {
+      content: ""; position: absolute; left: 0; bottom: -2px; height: 2px; width: 0;
+      background: linear-gradient(90deg, #FF6600, #33CC66, #0099CC);
+      transition: width .25s ease;
+    }
+    .link-underline:hover::after { width: 100%; }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-[#0b1220] text-gray-900 dark:text-gray-100 antialiased">
+  <!-- Header -->
+ <header class="sticky top-0 z-40 bg-white/95 dark:bg-[#0b1220]/90 backdrop-blur border-b border-gray-200/70 dark:border-white/10 shadow">
+  <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+
+    <!-- Logos et titre -->
+    <div class="flex items-center gap-4">
+      <!-- Logo Ministère -->
+      <img src="{% static 'img/Ivory_Coast_flag_with_coat_of_arms.gif' %}" alt="Côte d'Ivoire" class="h-16 w-18 shadow-sm  rounded-sm" />
+
+      <div class="flex flex-col">
+        <h1 class="text-xl sm:text-2xl font-extrabold text-ivoire-orange dark:text-[#28d0ff] leading-tight flex items-center gap-2">
+            <a href="{% url 'home' %}">Tableau de Bord National de la Santé</a>
+          <!-- Drapeau -->
+      <img src="{% static 'img/logoMSHPCMU.svg' %}" alt="Logo Ministère de la Santé" class="h-14 w-auto object-contain" />
+        </h1>
+        <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Ministère de la Santé, de l’Hygiène Publique et de la CMU</p>
+      </div>
+    </div>
+
+    <!-- Zone droite -->
+    <div class="flex items-center gap-3">
+      <!-- Recherche Desktop -->
+      <div class="relative hidden md:block">
+        <i class="fas fa-search absolute left-3 top-2.5 text-gray-400 dark:text-gray-500"></i>
+        <input type="text" placeholder="Rechercher…"
+          class="pl-9 pr-3 py-2 w-64 rounded-lg border border-gray-300/80 dark:border-white/10
+                 bg-white/80 dark:bg-white/5 focus:outline-none focus:ring-2
+                 focus:ring-ivoire-blue dark:focus:ring-[#28d0ff]
+                 focus:border-transparent transition" />
+      </div>
+
+      <!-- Bouton thème -->
+      <button id="themeToggle" class="h-10 w-10 rounded-full grid place-items-center
+        bg-gray-100 dark:bg-white/10 border border-gray-200 dark:border-white/10
+        hover:scale-105 transition" aria-label="Basculer mode clair/sombre">
+        <i class="fa-solid fa-moon text-gray-700 dark:hidden"></i>
+        <i class="fa-solid fa-sun text-yellow-400 hidden dark:inline"></i>
+      </button>
+
+      <!-- Utilisateur -->
+      <div class="flex items-center gap-2">
+        <div class="h-10 w-10 rounded-full bg-ivoire-blue dark:bg-[#28d0ff]
+          text-white font-bold grid place-items-center shadow">
+          AD
+        </div>
+        <span class="font-medium hidden sm:inline">Admin</span>
+      </div>
+
+      <!-- Recherche Mobile -->
+      <button class="md:hidden h-10 w-10 rounded-full grid place-items-center
+        border border-gray-200 dark:border-white/10">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+  </div>
+</header>
+  <!-- Navigation -->
+  <nav class="bg-ivoire-darkgreen/95 dark:bg-[#0e2330] text-white sticky top-[56px] sm:top-[64px] z-30">
+    <div class="container mx-auto px-4">
+      <div class="flex items-center justify-between py-2"><a href="{% url 'home' %}"> <i class="fas fa-home text-white text-xl"></i></a>
+        <button id="navPrev" class="hidden md:grid place-items-center h-9 w-9 rounded-full hover:bg-white/10"><i class="fa-solid fa-chevron-left"></i></button>
+        <ul id="navScroll" class="flex gap-2 overflow-x-auto no-scrollbar py-2 px-1 flex-1">
+          <li><a href="{% url 'sante_population' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Santé Population</a></li>
+          <li><a href="{% url 'acces_services' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Accès Services</a></li>
+          <li><a href="{% url 'qualite_soins' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Qualité Soins</a></li>
+          <li><a href="{% url 'ressources_humaines' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Ressources Humaines</a></li>
+          <li><a href="{% url 'infrastructures' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Infrastructures</a></li>
+          <li><a href="{% url 'medicaments' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Médicaments</a></li>
+          <li><a href="{% url 'financement' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Financement</a></li>
+          <li><a href="{% url 'cmu' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">CMU</a></li>
+          <li><a href="{% url 'sante_publique' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Santé Publique</a></li>
+          <li><a href="{% url 'sante_maternelle' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Santé Maternelle</a></li>
+          <li><a href="{% url 'sante_communautaire' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Santé Communautaire</a></li>
+          <li><a href="{% url 'gouvernance' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Gouvernance</a></li>
+          <li><a href="{% url 'urgences' %}" class="px-3 py-2 rounded-md whitespace-nowrap link-underline hover:bg-white/10">Urgences</a></li>
+        </ul>
+        <button id="navNext" class="hidden md:grid place-items-center h-9 w-9 rounded-full hover:bg-white/10"><i class="fa-solid fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container mx-auto px-4 animate-fadeIn">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-12 pt-8 border-t border-gray-200 dark:border-white/10">
+    <div class="container mx-auto px-4">
+      <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-gray-600 dark:text-gray-400">© {{ now|date:'Y' }} Ministère de la Santé et de l'Hygiène Publique — Côte d'Ivoire</p>
+        <div class="flex gap-4 text-gray-600 dark:text-gray-400">
+          <a href="#" class="hover:text-ivoire-blue dark:hover:text-[#28d0ff]"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="hover:text-ivoire-blue dark:hover:text-[#28d0ff]"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="hover:text-ivoire-blue dark:hover:text-[#28d0ff]"><i class="fab fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: theme + nav scroll + Chart.js theming -->
+  <script>
+    // ====== THEME (light/dark) ======
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeToggle');
+    const THEME_KEY = 'keneya-theme';
+
+    function applyTheme(mode){
+      if(mode === 'dark'){ root.classList.add('dark'); } else { root.classList.remove('dark'); }
+      // Chart.js base colors
+      const isDark = root.classList.contains('dark');
+      if(window.Chart){
+        Chart.defaults.borderColor = isDark ? 'rgba(255,255,255,.12)' : 'rgba(0,0,0,.08)';
+        Chart.defaults.color = isDark ? 'rgba(255,255,255,.9)' : '#111827';
+        // Notify pages to update charts if needed
+        window.dispatchEvent(new CustomEvent('themechange', { detail: { mode } }));
+      }
+    }
+
+    // Init theme from localStorage or system preference
+    const saved = localStorage.getItem(THEME_KEY);
+    if(saved){ applyTheme(saved); }
+    else if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches){ applyTheme('dark'); }
+
+    themeBtn?.addEventListener('click', ()=>{
+      const next = root.classList.contains('dark') ? 'light' : 'dark';
+      localStorage.setItem(THEME_KEY, next);
+      applyTheme(next);
+    });
+
+    // ====== NAV H SCROLL (desktop helpers) ======
+    const nav = document.getElementById('navScroll');
+    document.getElementById('navPrev')?.addEventListener('click', ()=> nav.scrollBy({left:-200, behavior:'smooth'}));
+    document.getElementById('navNext')?.addEventListener('click', ()=> nav.scrollBy({left: 200, behavior:'smooth'}));
+
+    // Auto-hide prev/next if not scrollable
+    function updateNavButtons(){
+      const prev = document.getElementById('navPrev');
+      const next = document.getElementById('navNext');
+      const scrollable = nav.scrollWidth > nav.clientWidth + 10;
+      prev.classList.toggle('hidden', !scrollable);
+      next.classList.toggle('hidden', !scrollable);
+    }
+    window.addEventListener('resize', updateNavButtons);
+    window.addEventListener('load', updateNavButtons);
+
+    // ====== OPTIONAL: active link highlight via URL path ======
+    (function markActive(){
+      const path = window.location.pathname;
+      document.querySelectorAll('#navScroll a').forEach(a=>{
+        if(a.getAttribute('href') && path.startsWith(a.getAttribute('href'))){
+          a.classList.add('bg-white/15');
+        }
+      });
+    })();
+  </script>
+
+  <!-- No-scrollbar utility -->
+  <style>
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  </style>
 </body>
 </html>

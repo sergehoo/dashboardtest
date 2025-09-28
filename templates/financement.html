@@ -1,0 +1,218 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Financement - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-ivoire-darkgreen mb-6">Financement et Gestion Budgétaire</h1>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Budget santé national</p>
+                    <h3 class="text-2xl font-bold text-gray-800">7.8%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +0.4% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-blue bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-money-bill-wave text-ivoire-blue text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Dépense santé/habitant</p>
+                    <h3 class="text-2xl font-bold text-gray-800">CFA 42k</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +CFA 3 vs 2022</p>
+                </div>
+                <div class="bg-ivoire-green bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-user text-ivoire-green text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Taux remboursement CMU</p>
+                    <h3 class="text-2xl font-bold text-gray-800">72%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +8% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-orange bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-hand-holding-usd text-ivoire-orange text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Efficacité dépenses</p>
+                    <h3 class="text-2xl font-bold text-gray-800">68%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +5% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-purple bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-chart-line text-ivoire-purple text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Répartition des sources de financement</h2>
+            <div class="h-80">
+                <canvas id="fundingSourcesChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Évolution du budget santé</h2>
+            <div class="h-80">
+                <canvas id="budgetEvolutionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Indicators -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Sources de financement</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Budget gouvernement</span>
+                    <span class="font-medium">45%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Ménages (direct)</span>
+                    <span class="font-medium">38%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Partenaires internationaux</span>
+                    <span class="font-medium">12%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Assurances privées</span>
+                    <span class="font-medium">5%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Allocation des ressources</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Soins curatifs</span>
+                    <span class="font-medium">62%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Soins préventifs</span>
+                    <span class="font-medium">28%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Infrastructures</span>
+                    <span class="font-medium">7%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Administration</span>
+                    <span class="font-medium">3%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Performance financière</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Délai paiement fournisseurs</span>
+                    <span class="font-medium">64 jours</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Taux recouvrement</span>
+                    <span class="font-medium">68%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Coût moyen hospitalisation</span>
+                    <span class="font-medium">CFA 185K</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Audits conformes</span>
+                    <span class="font-medium">82%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Funding Sources Chart
+    const fundingSourcesCtx = document.getElementById('fundingSourcesChart').getContext('2d');
+    const fundingSourcesChart = new Chart(fundingSourcesCtx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Gouvernement', 'Ménages', 'Partenaires', 'Assurances'],
+            datasets: [{
+                data: [45, 38, 12, 5],
+                backgroundColor: [
+                    'rgba(0, 153, 204, 0.7)',
+                    'rgba(51, 204, 102, 0.7)',
+                    'rgba(255, 102, 0, 0.7)',
+                    'rgba(153, 102, 255, 0.7)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                }
+            }
+        }
+    });
+
+    // Budget Evolution Chart
+    const budgetEvolutionCtx = document.getElementById('budgetEvolutionChart').getContext('2d');
+    const budgetEvolutionChart = new Chart(budgetEvolutionCtx, {
+        type: 'line',
+        data: {
+            labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+            datasets: [{
+                label: 'Part santé budget national (%)',
+                data: [6.2, 6.5, 6.8, 7.1, 7.4, 7.8],
+                borderColor: 'rgb(0, 153, 204)',
+                backgroundColor: 'rgba(0, 153, 204, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Dépense/habitant (CFA)',
+                data: [32, 34, 36, 38, 39, 42],
+                borderColor: 'rgb(51, 204, 102)',
+                backgroundColor: 'rgba(51, 204, 102, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Valeurs'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,210 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Gouvernance - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-ivoire-darkgreen mb-6">Gouvernance et Pilotage du Système de Santé</h1>
+
+    <!-- KPI Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Politiques mises à jour</p>
+                    <h3 class="text-2xl font-bold text-gray-800">78%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +12% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-blue bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-file-alt text-ivoire-blue text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Conformité audits</p>
+                    <h3 class="text-2xl font-bold text-gray-800">72%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +8% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-green bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-clipboard-check text-ivoire-green text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Niveau digitalisation</p>
+                    <h3 class="text-2xl font-bold text-gray-800">48%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +15% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-orange bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-laptop-medical text-ivoire-orange text-xl"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+            <div class="flex justify-between items-start">
+                <div>
+                    <p class="text-gray-500 text-sm">Décisions basées données</p>
+                    <h3 class="text-2xl font-bold text-gray-800">61%</h3>
+                    <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +14% vs 2022</p>
+                </div>
+                <div class="bg-ivoire-purple bg-opacity-10 p-3 rounded-full">
+                    <i class="fas fa-chart-bar text-ivoire-purple text-xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Indice de gouvernance par domaine</h2>
+            <div class="h-80">
+                <canvas id="governanceIndexChart"></canvas>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Évolution de la digitalisation</h2>
+            <div class="h-80">
+                <canvas id="digitalizationTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Indicators -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Politiques et plans</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Plans stratégiques opérationnels</span>
+                    <span class="font-medium">65%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Indicateurs rapportés temps réel</span>
+                    <span class="font-medium">42%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Utilisation DHIS2</span>
+                    <span class="font-medium">68%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Évaluations régulières</span>
+                    <span class="font-medium">58%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Audit et conformité</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Structures certifiées</span>
+                    <span class="font-medium">45%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Recommandations implémentées</span>
+                    <span class="font-medium">58%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Taux de signalement incidents</span>
+                    <span class="font-medium">34%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Audits qualité réalisés</span>
+                    <span class="font-medium">72%</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Coordination et systèmes</h3>
+            <div class="space-y-3">
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Réunions coordination tenues</span>
+                    <span class="font-medium">82%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Interopérabilité systèmes</span>
+                    <span class="font-medium">35%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Données ouvertes santé</span>
+                    <span class="font-medium">28%</span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="text-gray-600">Formation gestionnaires</span>
+                    <span class="font-medium">64%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Governance Index Chart
+    const governanceIndexCtx = document.getElementById('governanceIndexChart').getContext('2d');
+    const governanceIndexChart = new Chart(governanceIndexCtx, {
+        type: 'radar',
+        data: {
+            labels: ['Politiques', 'Planification', 'Financement', 'Ressources', 'Information', 'Participation'],
+            datasets: [{
+                label: 'Score de gouvernance',
+                data: [78, 65, 72, 68, 48, 58],
+                borderColor: 'rgb(0, 153, 204)',
+                backgroundColor: 'rgba(0, 153, 204, 0.2)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 100
+                }
+            }
+        }
+    });
+
+    // Digitalization Trend Chart
+    const digitalizationTrendCtx = document.getElementById('digitalizationTrendChart').getContext('2d');
+    const digitalizationTrendChart = new Chart(digitalizationTrendCtx, {
+        type: 'line',
+        data: {
+            labels: ['2018', '2019', '2020', '2021', '2022', '2023'],
+            datasets: [{
+                label: 'Niveau de digitalisation (%)',
+                data: [18, 24, 28, 32, 38, 48],
+                borderColor: 'rgb(153, 102, 255)',
+                backgroundColor: 'rgba(153, 102, 255, 0.1)',
+                tension: 0.4,
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Niveau de digitalisation (%)'
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

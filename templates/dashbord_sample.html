@@ -1,1193 +1,435 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tableau de Bord National de la Santé - Côte d'Ivoire</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'ivoire-blue': '#0099CC',
-                        'ivoire-orange': '#FF6600',
-                        'ivoire-green': '#33CC66',
-                        'ivoire-purple': '#9966CC',
-                    }
-                }
-            }
-        }
-    </script>
-</head>
-<body class="bg-gray-100">
-    <!-- Header -->
-    <header class="bg-white shadow-md">
-        <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-            <div class="flex items-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/f/fe/Flag_of_C%C3%B4te_d%27Ivoire.svg" alt="Drapeau Côte d'Ivoire" class="h-10 mr-3">
-                <div>
-                    <h1 class="text-2xl font-bold text-ivoire-blue">Tableau de Bord National de la Santé</h1>
-                    <p class="text-gray-600">Côte d'Ivoire - Données en temps réel</p>
-                </div>
-            </div>
-            <div class="flex items-center space-x-4">
-                <div class="relative">
-                    <input type="text" placeholder="Rechercher..." class="pl-10 pr-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-ivoire-blue">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
-                </div>
-                <div class="flex items-center space-x-2">
-                    <div class="h-10 w-10 rounded-full bg-ivoire-blue flex items-center justify-center text-white font-bold">AD</div>
-                    <span class="font-medium">Admin</span>
-                </div>
-            </div>
-        </div>
-    </header>
+{% extends 'base_dashboard.html' %}
 
-    <!-- Navigation -->
-    <nav class="bg-ivoire-blue text-white">
-        <div class="container mx-auto px-4">
-            <ul class="flex space-x-8 overflow-x-auto py-3">
-                <li><a href="#sante-population" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Santé Population</a></li>
-                <li><a href="#acces-services" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Accès Services</a></li>
-                <li><a href="#qualite-soins" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Qualité Soins</a></li>
-                <li><a href="#ressources-humaines" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Ressources Humaines</a></li>
-                <li><a href="#infrastructures" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Infrastructures</a></li>
-                <li><a href="#medicaments" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Médicaments</a></li>
-                <li><a href="#financement" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Financement</a></li>
-                <li><a href="#cmu" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">CMU</a></li>
-                <li><a href="#sante-publique" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Santé Publique</a></li>
-                <li><a href="#sante-maternelle" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Santé Maternelle</a></li>
-                <li><a href="#sante-communautaire" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Santé Communautaire</a></li>
-                <li><a href="#gouvernance" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Gouvernance</a></li>
-                <li><a href="#urgences" class="hover:bg-ivoire-orange px-3 py-2 rounded transition">Urgences</a></li>
-            </ul>
-        </div>
-    </nav>
+{% block title %} Tableau de Bord National{% endblock %}
 
-    <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
-        <!-- KPI Summary Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-500 text-sm">Espérance de vie</p>
-                        <h3 class="text-2xl font-bold text-gray-800">57.4 ans</h3>
-                        <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +1.2% vs 2022</p>
-                    </div>
-                    <div class="bg-ivoire-blue bg-opacity-10 p-3 rounded-full">
-                        <i class="fas fa-heartbeat text-ivoire-blue text-xl"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-500 text-sm">Couverture vaccinale</p>
-                        <h3 class="text-2xl font-bold text-gray-800">78%</h3>
-                        <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +5% vs 2022</p>
-                    </div>
-                    <div class="bg-ivoire-green bg-opacity-10 p-3 rounded-full">
-                        <i class="fas fa-syringe text-ivoire-green text-xl"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-500 text-sm">Mortalité infantile</p>
-                        <h3 class="text-2xl font-bold text-gray-800">59.2‰</h3>
-                        <p class="text-red-500 text-sm mt-1"><i class="fas fa-arrow-down"></i> -3% vs 2022</p>
-                    </div>
-                    <div class="bg-ivoire-orange bg-opacity-10 p-3 rounded-full">
-                        <i class="fas fa-baby text-ivoire-orange text-xl"></i>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <p class="text-gray-500 text-sm">Satisfaction usagers</p>
-                        <h3 class="text-2xl font-bold text-gray-800">82%</h3>
-                        <p class="text-green-500 text-sm mt-1"><i class="fas fa-arrow-up"></i> +4% vs 2022</p>
-                    </div>
-                    <div class="bg-ivoire-purple bg-opacity-10 p-3 rounded-full">
-                        <i class="fas fa-smile text-ivoire-purple text-xl"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Charts Section -->
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-            <!-- Mortality Chart -->
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">Taux de mortalité par pathologie</h2>
-                <div class="h-80">
-                    <canvas id="mortalityChart"></canvas>
-                </div>
-            </div>
-            
-            <!-- Vaccination Coverage -->
-            <div class="bg-white rounded-xl shadow-md p-6">
-                <h2 class="text-xl font-bold text-gray-800 mb-4">Couverture vaccinale par région</h2>
-                <div class="h-80">
-                    <canvas id="vaccinationChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-        <!-- Indicators by Category -->
-        <div id="sante-population" class="mb-12">
-            <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">1. Santé de la Population</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Card 1 -->
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Mortalité et Morbidité</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Mortalité infantile</span>
-                            <span class="font-medium">59.2‰</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Mortalité néonatale</span>
-                            <span class="font-medium">28.5‰</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Mortalité maternelle</span>
-                            <span class="font-medium">614/100k</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Espérance de vie</span>
-                            <span class="font-medium">57.4 ans</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 2 -->
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Mortalité par pathologie</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Paludisme</span>
-                            <span class="font-medium">15.2%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">VIH/SIDA</span>
-                            <span class="font-medium">3.8%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Tuberculose</span>
-                            <span class="font-medium">2.1%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Maladies cardiovasculaires</span>
-                            <span class="font-medium">11.5%</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 3 -->
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Prévention et vaccination</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Couverture vaccinale BCG</span>
-                            <span class="font-medium">89%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Couverture vaccinale Rougeole</span>
-                            <span class="font-medium">76%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Utilisation moustiquaires</span>
-                            <span class="font-medium">68%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Incidence maladies évitables</span>
-                            <span class="font-medium">12.4/1000</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Repeat similar structure for other categories -->
-        <!-- For brevity, I'll show one more category as example -->
-        
-        <div id="acces-services" class="mb-12">
-            <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">2. Accès et Utilisation des Services de Santé</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Card 1 -->
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Fréquentation des structures</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Consultations externes</span>
-                            <span class="font-medium">4.2M/mois</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Hospitalisations</span>
-                            <span class="font-medium">125k/mois</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Urgences</span>
-                            <span class="font-medium">98k/mois</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Taux de satisfaction</span>
-                            <span class="font-medium">82%</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 2 -->
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Accessibilité géographique</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Distance moyenne accès</span>
-                            <span class="font-medium">7.8 km</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Taux référence/contre-référence</span>
-                            <span class="font-medium">64%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Accouchements assistés</span>
-                            <span class="font-medium">74%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Temps moyen urgence</span>
-                            <span class="font-medium">42 min</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Card 3 -->
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Indicateurs régionaux</h3>
-                    <div class="space-y-3">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Abidjan - Satisfaction</span>
-                            <span class="font-medium">85%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Nord - Accès moyen</span>
-                            <span class="font-medium">12.3 km</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Ouest - Accouchements assistés</span>
-                            <span class="font-medium">68%</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Est - Temps urgence</span>
-                            <span class="font-medium">51 min</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Additional sections would follow the same pattern -->
-        <!-- For the sake of brevity in this example, I'm including only two sections -->
-<!-- 3. Qualité et Performance des Soins -->
-<div id="qualite-soins" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">3. Qualité et Performance des Soins</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Indicateurs de qualité</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux de réadmission</span>
-                    <span class="font-medium">8.2%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Infections nosocomiales</span>
-                    <span class="font-medium">4.7%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Délai attente spécialiste</span>
-                    <span class="font-medium">18 jours</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Protocoles respectés</span>
-                    <span class="font-medium">78%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Disponibilité médicaments</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Médicaments essentiels</span>
-                    <span class="font-medium">82%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Antibiotiques</span>
-                    <span class="font-medium">76%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Vaccins</span>
-                    <span class="font-medium">89%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Médicaments chroniques</span>
-                    <span class="font-medium">71%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Performance par région</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Abidjan - Qualité</span>
-                    <span class="font-medium">85%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Nord - Réadmission</span>
-                    <span class="font-medium">12.3%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Ouest - Délais</span>
-                    <span class="font-medium">25 jours</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Rural - Protocoles</span>
-                    <span class="font-medium">65%</span>
-                </div>
-            </div>
-        </div>
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <!-- HEADER & FILTERS -->
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-3xl font-extrabold text-ivoiregreen dark:text-[#28d0ff]">Santé de la Population</h1>
+      <p class="text-gray-500 dark:text-gray-400">Vue nationale · mise à jour {{ last_update|default:"--/--/----" }}</p>
     </div>
+    <div class="flex flex-wrap gap-2 items-center">
+      <select id="periodSelect" class="border rounded-lg px-3 py-2 text-sm dark:bg-white/5 dark:border-white/10">
+        <option>2025 (YTD)</option>
+        <option>2024</option>
+        <option>2023</option>
+      </select>
+      <select id="presSelect" class="border rounded-lg px-3 py-2 text-sm dark:bg-white/5 dark:border-white/10">
+        <option value="ALL">Tous les PRES</option>
+        <option value="PRES ABIDJAN">PRES ABIDJAN</option>
+        <option value="PRES YAMOUSSOUKRO">PRES YAMOUSSOUKRO</option>
+        <option value="PRES SAN PEDRO">PRES SAN PEDRO</option>
+        <option value="PRES ODIENNE">PRES ODIENNE</option>
+        <option value="PRES MAN">PRES MAN</option>
+        <option value="PRES KORHOGO">PRES KORHOGO</option>
+        <option value="PRES DALOA">PRES DALOA</option>
+        <option value="PRES BOUAKE">PRES BOUAKE</option>
+        <option value="PRES BONDOUKOU">PRES BONDOUKOU</option>
+        <option value="PRES ABENGOUROU">PRES ABENGOUROU</option>
+      </select>
+      <select id="regionSelect" class="border rounded-lg px-3 py-2 text-sm dark:bg-white/5 dark:border-white/10">
+        <option value="ALL">Toutes les régions</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- KPIs (Nationaux / ou filtrés PRES) -->
+  <div id="kpiWrap" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"></div>
+
+  <!-- KPI STRIP 2 : Indicateurs clés nationaux -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Incidence paludisme</p>
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">125.8/1000</h3>
+          <p class="text-red-600 text-xs mt-1"><i class="fas fa-arrow-down"></i> -12% vs 2024</p>
+        </div>
+        <div class="p-3 rounded-full bg-ivoire-blue/10"><i class="fas fa-bug text-ivoire-blue text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Couverture DTP3</p>
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">82%</h3>
+          <p class="text-green-600 text-xs mt-1"><i class="fas fa-arrow-up"></i> +4 pts vs 2024</p>
+        </div>
+        <div class="p-3 rounded-full bg-ivoire-green/10"><i class="fas fa-syringe text-ivoire-green text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Distance moyenne d’accès</p>
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">7.8 km</h3>
+          <p class="text-gray-500 text-xs mt-1">National (tous niveaux)</p>
+        </div>
+        <div class="p-3 rounded-full bg-ivoire-orange/10"><i class="fas fa-route text-ivoire-orange text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">Satisfaction usagers</p>
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">82%</h3>
+          <p class="text-green-600 text-xs mt-1"><i class="fas fa-arrow-up"></i> +3 pts vs 2024</p>
+        </div>
+        <div class="p-3 rounded-full bg-ivoire-purple/10"><i class="fas fa-smile text-ivoire-purple text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS: PRES OVERVIEW -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Couverture vaccinale par PRES</h2>
+      <div class="h-80"><canvas id="chartCoverageByPRES"></canvas></div>
+    </div>
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Mortalité infantile par PRES</h2>
+      <div class="h-80"><canvas id="chartInfantMortalityByPRES"></canvas></div>
+    </div>
+  </div>
+
+  <!-- CHARTS: FOCUS PRES SÉLECTIONNÉ -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10 lg:col-span-2">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Profil du PRES sélectionné</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Radar des indicateurs clés (vaccination, mortalité inf., satisfaction, accès)</p>
+      <div class="h-80"><canvas id="chartPresRadar"></canvas></div>
+    </div>
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Population par PRES (répartition)</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Données simulées pour l'exemple</p>
+      <div class="h-80"><canvas id="chartPopulationShare"></canvas></div>
+    </div>
+  </div>
+
+  <!-- CHARTS: Tendance & NCD -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Tendance trimestrielle — principaux indicateurs</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Consultations / hospitalisations / DTP3</p>
+      <div class="h-80"><canvas id="chartQuarterlyTrend"></canvas></div>
+    </div>
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Maladies chroniques (NCD) par PRES</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Prévalences simulées (HTA, diabète)</p>
+      <div class="h-80"><canvas id="chartNCDByPRES"></canvas></div>
+    </div>
+  </div>
+
+  <!-- TABLE: Mapping Régions → PRES + Districts du PRES sélectionné -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-4">Correspondance Régions ↔︎ PRES</h2>
+      <div class="overflow-auto max-h-[420px]">
+        <table class="min-w-full text-sm">
+          <thead class="sticky top-0 bg-gray-50 dark:bg-white/10">
+            <tr>
+              <th class="text-left p-2 font-semibold">Région</th>
+              <th class="text-left p-2 font-semibold">PRES</th>
+            </tr>
+          </thead>
+          <tbody id="regionPresBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10">
+      <h2 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2">Districts du PRES sélectionné</h2>
+      <p class="text-sm text-gray-500 dark:text-gray-400 mb-4">Indicateurs clés par district (données simulées)</p>
+      <div class="overflow-auto max-h-[420px]">
+        <table class="min-w-full text-sm">
+          <thead class="sticky top-0 bg-gray-50 dark:bg-white/10">
+            <tr>
+              <th class="text-left p-2 font-semibold">District</th>
+              <th class="text-left p-2 font-semibold">Couverture vaccinale</th>
+              <th class="text-left p-2 font-semibold">Mort. infantile</th>
+              <th class="text-left p-2 font-semibold">Satisfaction</th>
+              <th class="text-left p-2 font-semibold">Accès moyen (km)</th>
+            </tr>
+          </thead>
+          <tbody id="districtBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- 4. Ressources Humaines en Santé -->
-<div id="ressources-humaines" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">4. Ressources Humaines en Santé</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Ratios par population</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Médecins/10,000 hab.</span>
-                    <span class="font-medium">2.4</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Infirmiers/10,000 hab.</span>
-                    <span class="font-medium">8.7</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Sages-femmes/10,000 hab.</span>
-                    <span class="font-medium">1.8</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Densité moyenne Afrique</span>
-                    <span class="font-medium">3.1</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Répartition géographique</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Personnel urbain</span>
-                    <span class="font-medium">78%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Personnel rural</span>
-                    <span class="font-medium">22%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux de rotation</span>
-                    <span class="font-medium">15%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Absentéisme</span>
-                    <span class="font-medium">8.3%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Formation et recrutement</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Formations continues</span>
-                    <span class="font-medium">245/an</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Postes pourvus zones prioritaires</span>
-                    <span class="font-medium">42%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Nouveaux diplômés</span>
-                    <span class="font-medium">1,250/an</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux de retention</span>
-                    <span class="font-medium">67%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+// ===================== DATA (Mapping & Simulations) =====================
+const REGION_TO_PRES = {
+  "N'ZI":"PRES YAMOUSSOUKRO","MARAHOUE":"PRES YAMOUSSOUKRO","LÔH-DJIBOUA":"PRES YAMOUSSOUKRO","GOH":"PRES YAMOUSSOUKRO","BELIER":"PRES YAMOUSSOUKRO",
+  "SAN PEDRO":"PRES SAN PEDRO","NAWA":"PRES SAN PEDRO","GBOKLE":"PRES SAN PEDRO",
+  "KABADOUGOU":"PRES ODIENNE","FOLON":"PRES ODIENNE","BAGOUE":"PRES ODIENNE",
+  "TONKPI":"PRES MAN","GUEMON":"PRES MAN","CAVALLY":"PRES MAN","BAFING":"PRES MAN",
+  "TCHOLOGO":"PRES KORHOGO","PORO":"PRES KORHOGO",
+  "WORODOUGOU":"PRES DALOA","HAUT-SASSANDRA":"PRES DALOA",
+  "HAMBOL":"PRES BOUAKE","GBEKE":"PRES BOUAKE","BERE":"PRES BOUAKE",
+  "GONTOUGO":"PRES BONDOUKOU","BOUKANI":"PRES BONDOUKOU",
+  "SUD COMOE":"PRES ABIDJAN","ME":"PRES ABIDJAN","GRANDS-PONTS":"PRES ABIDJAN","AGNEBY-TIASSA":"PRES ABIDJAN","ABIDJAN 2":"PRES ABIDJAN","ABIDJAN 1":"PRES ABIDJAN",
+  "MORONOU":"PRES ABENGOUROU","INDENIE-DJUABLIN":"PRES ABENGOUROU","IFFOU":"PRES ABENGOUROU"
+};
 
-<!-- 5. Infrastructures et Équipements -->
-<div id="infrastructures" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">5. Infrastructures et Équipements</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Structures sanitaires</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">CSU (Centres de Santé Urbains)</span>
-                    <span class="font-medium">248</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">CHR (Centres Hospitaliers Régionaux)</span>
-                    <span class="font-medium">34</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">CHU (Centres Hospitaliers Universitaires)</span>
-                    <span class="font-medium">6</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Centres spécialisés</span>
-                    <span class="font-medium">18</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Fonctionnalité équipements</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Imagerie médicale</span>
-                    <span class="font-medium">72%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Laboratoires</span>
-                    <span class="font-medium">68%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Blocs opératoires</span>
-                    <span class="font-medium">61%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Équipements urgences</span>
-                    <span class="font-medium">75%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Connectivité et services</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Structures connectées SIH</span>
-                    <span class="font-medium">45%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Accès à l'eau</span>
-                    <span class="font-medium">78%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Accès à l'électricité</span>
-                    <span class="font-medium">82%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Accès internet</span>
-                    <span class="font-medium">52%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+const PRES_LIST = ['PRES ABIDJAN','PRES YAMOUSSOUKRO','PRES SAN PEDRO','PRES ODIENNE','PRES MAN','PRES KORHOGO','PRES DALOA','PRES BOUAKE','PRES BONDOUKOU','PRES ABENGOUROU'];
 
-<!-- 6. Médicaments, Vaccins et Consommables -->
-<div id="medicaments" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">6. Médicaments, Vaccins et Consommables</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Disponibilité</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Médicaments essentiels</span>
-                    <span class="font-medium">79%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Vaccins routine</span>
-                    <span class="font-medium">85%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Consommables critiques</span>
-                    <span class="font-medium">72%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Antirétroviraux</span>
-                    <span class="font-medium">88%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Ruptures de stock</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Médicaments essentiels</span>
-                    <span class="font-medium">8.2%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Vaccins</span>
-                    <span class="font-medium">5.7%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Consommables</span>
-                    <span class="font-medium">12.4%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Moyenne nationale</span>
-                    <span class="font-medium">8.8%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Gestion logistique</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Approvisionnement dans délais</span>
-                    <span class="font-medium">74%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Utilisation rationnelle</span>
-                    <span class="font-medium">68%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Pertes et péremption</span>
-                    <span class="font-medium">4.2%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux de rotation stocks</span>
-                    <span class="font-medium">6.8</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+// Données simulées par PRES
+const DATA_PRES = PRES_LIST.reduce((acc, pres, i)=>{
+  acc[pres] = {
+    lifeExp: 57 + (i%5)*0.6,            // espérance de vie
+    vacc: 65 + (i*3 % 20),              // couverture vaccinale
+    infantMortality: 50 + (i*4 % 25),   // pour 1000
+    satisfaction: 70 + (i*2 % 20),      // %
+    accessKm: 6 + (i*1.2 % 8),          // km moyen d'accès
+    popShare: 5 + (i*2 % 12)            // % part population
+  };
+  return acc;
+}, {});
 
-<!-- 7. Financement et Gestion Budgétaire -->
-<div id="financement" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">7. Financement et Gestion Budgétaire</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Budget national</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Part santé budget national</span>
-                    <span class="font-medium">7.8%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Dépense santé/habitant</span>
-                    <span class="font-medium">$42</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Financement public</span>
-                    <span class="font-medium">45%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Financement privé</span>
-                    <span class="font-medium">55%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Remboursements et coûts</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux remboursement CMU</span>
-                    <span class="font-medium">72%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Coût moyen hospitalisation</span>
-                    <span class="font-medium">$185</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux recouvrement</span>
-                    <span class="font-medium">68%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Délai paiement fournisseurs</span>
-                    <span class="font-medium">64 jours</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Répartition des investissements</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Soins préventifs</span>
-                    <span class="font-medium">28%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Soins curatifs</span>
-                    <span class="font-medium">62%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Infrastructures</span>
-                    <span class="font-medium">7%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Formation</span>
-                    <span class="font-medium">3%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+// Districts simulés par PRES
+function sampleDistricts(pres){
+  const n = 4 + Math.floor(Math.random()*3);
+  const rows = [];
+  for(let k=1;k<=n;k++){
+    rows.push({
+      name: pres.split(' ')[1] + ' - District ' + k,
+      vacc: Math.round(60 + Math.random()*30),
+      mort: Math.round(40 + Math.random()*35),
+      sat: Math.round(65 + Math.random()*25),
+      access: (5 + Math.random()*10).toFixed(1)
+    });
+  }
+  return rows;
+}
 
-<!-- 8. Couverture Maladie Universelle (CMU) -->
-<div id="cmu" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">8. Couverture Maladie Universelle (CMU)</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Adhésion et couverture</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux d'adhésion population</span>
-                    <span class="font-medium">42%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Couverture effective</span>
-                    <span class="font-medium">38%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Population cible couverte</span>
-                    <span class="font-medium">58%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Nouveaux adhérents/mois</span>
-                    <span class="font-medium">15,200</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Prestations et remboursements</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Actes couverts</span>
-                    <span class="font-medium">78%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Délai remboursement</span>
-                    <span class="font-medium">45 jours</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux de réclamation</span>
-                    <span class="font-medium">4.2%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Satisfaction assurés</span>
-                    <span class="font-medium">76%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Régionalisation</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Abidjan - Couverture</span>
-                    <span class="font-medium">65%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Rural - Adhésion</span>
-                    <span class="font-medium">28%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Nord - Utilisation</span>
-                    <span class="font-medium">32%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Objectif 2025</span>
-                    <span class="font-medium">70%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+// ===================== UI INIT (Regions for selected PRES) =====================
+const regionSelect = document.getElementById('regionSelect');
+const presSelect = document.getElementById('presSelect');
 
-<!-- 9. Santé Publique et Surveillance Épidémiologique -->
-<div id="sante-publique" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">9. Santé Publique et Surveillance Épidémiologique</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Incidence des épidémies</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">COVID-19 (cas/1000)</span>
-                    <span class="font-medium">2.4</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Paludisme (cas/1000)</span>
-                    <span class="font-medium">125.8</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Dengue (cas/1000)</span>
-                    <span class="font-medium">8.7</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Choléra (cas/1000)</span>
-                    <span class="font-medium">0.4</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Détection et réponse</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Délai détection cas</span>
-                    <span class="font-medium">3.2 jours</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Délai déclaration</span>
-                    <span class="font-medium">1.8 jours</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Alertes traitées</span>
-                    <span class="font-medium">94%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Districts avec plan riposte</span>
-                    <span class="font-medium">68%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Surveillance</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Couverture surveillance</span>
-                    <span class="font-medium">72%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Laboratoires fonctionnels</span>
-                    <span class="font-medium">65%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Tests réalisés/mois</span>
-                    <span class="font-medium">42,500</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux de positivité</span>
-                    <span class="font-medium">8.7%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+function populateRegionsFor(pres){
+  regionSelect.innerHTML = '<option value="ALL">Toutes les régions</option>';
+  Object.entries(REGION_TO_PRES)
+    .filter(([r,p]) => pres==='ALL' ? true : p===pres)
+    .forEach(([r])=>{
+      const opt = document.createElement('option');
+      opt.value = r; opt.textContent = r; regionSelect.appendChild(opt);
+    });
+}
+populateRegionsFor('ALL');
 
-<!-- 10. Santé Maternelle, Néonatale et Infantile -->
-<div id="sante-maternelle" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">10. Santé Maternelle, Néonatale et Infantile</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Soins prénatals</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">CPN ≥ 4 consultations</span>
-                    <span class="font-medium">64%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Première CPN trimestre 1</span>
-                    <span class="font-medium">58%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Dépistage VIH CPN</span>
-                    <span class="font-medium">82%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Supplémentation fer</span>
-                    <span class="font-medium">71%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Accouchement et postnatal</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux de césariennes</span>
-                    <span class="font-medium">6.8%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Suivi postnatal mère</span>
-                    <span class="font-medium">52%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Suivi postnatal enfant</span>
-                    <span class="font-medium">48%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Allaitement exclusif 6 mois</span>
-                    <span class="font-medium">42%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Planification familiale</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Couverture PF</span>
-                    <span class="font-medium">38%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Besoins non satisfaits</span>
-                    <span class="font-medium">24%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Consultations PF/mois</span>
-                    <span class="font-medium">28,400</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Adolescentes utilisatrices</span>
-                    <span class="font-medium">18%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+// ===================== KPI RENDER =====================
+// Couleurs fixes (évite les classes dynamiques Tailwind)
+const KPI_COLORS = {
+  blue:  {bg:'rgba(0,153,204,.10)', text:'#0099CC', hex:'#0099CC'},
+  green: {bg:'rgba(51,204,102,.10)', text:'#33CC66', hex:'#33CC66'},
+  orange:{bg:'rgba(255,102,0,.10)', text:'#FF6600', hex:'#FF6600'},
+  purple:{bg:'rgba(153,102,204,.10)', text:'#9966CC', hex:'#9966CC'}
+};
 
-<!-- 11. Santé Communautaire -->
-<div id="sante-communautaire" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">11. Santé Communautaire</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Agents de santé communautaire</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Agents actifs</span>
-                    <span class="font-medium">5,248</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Ratio agent/population</span>
-                    <span class="font-medium">1/4,200</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Formation complète</span>
-                    <span class="font-medium">78%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Rétention 1 an</span>
-                    <span class="font-medium">82%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Activités communautaires</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Ménages visités</span>
-                    <span class="font-medium">45%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Dépistage VIH communautaire</span>
-                    <span class="font-medium">28%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Suivi TB communautaire</span>
-                    <span class="font-medium">64%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Vaccination communautaire</span>
-                    <span class="font-medium">32%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Participation communautaire</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Organisations impliquées</span>
-                    <span class="font-medium">428</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Comités santé fonctionnels</span>
-                    <span class="font-medium">62%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Participation femmes</span>
-                    <span class="font-medium">58%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Budget participatif</span>
-                    <span class="font-medium">12%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+const KPI_CFG = [
+  { key:'lifeExp', label:"Espérance de vie", fmt:(v)=>v.toFixed(1)+' ans', color:'blue',  icon:'fa-heartbeat' },
+  { key:'vacc', label:"Couverture vaccinale", fmt:(v)=>v+'%', color:'green', icon:'fa-syringe' },
+  { key:'infantMortality', label:"Mortalité infantile", fmt:(v)=>v+'‰', color:'orange', icon:'fa-baby' },
+  { key:'satisfaction', label:"Satisfaction usagers", fmt:(v)=>v+'%', color:'purple', icon:'fa-smile' }
+];
 
-<!-- 12. Gouvernance et Pilotage du Système de Santé -->
-<div id="gouvernance" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">12. Gouvernance et Pilotage du Système de Santé</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Politiques et plans</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Politiques mises à jour</span>
-                    <span class="font-medium">78%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Plans stratégiques opérationnels</span>
-                    <span class="font-medium">65%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Indicateurs rapportés temps réel</span>
-                    <span class="font-medium">42%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Utilisation DHIS2</span>
-                    <span class="font-medium">68%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Audit et conformité</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Conformité audits hospitaliers</span>
-                    <span class="font-medium">72%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Structures certifiées</span>
-                    <span class="font-medium">45%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Recommandations implémentées</span>
-                    <span class="font-medium">58%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Taux de signalement incidents</span>
-                    <span class="font-medium">34%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Coordination et digitalisation</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Réunions coordination tenues</span>
-                    <span class="font-medium">82%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Niveau digitalisation</span>
-                    <span class="font-medium">48%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Interopérabilité systèmes</span>
-                    <span class="font-medium">35%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Décisions basées données</span>
-                    <span class="font-medium">61%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+function computeAggregated(pres){
+  if(pres==='ALL'){
+    const agg = {lifeExp:0,vacc:0,infantMortality:0,satisfaction:0};
+    PRES_LIST.forEach(p=>{ const d=DATA_PRES[p]; Object.keys(agg).forEach(k=> agg[k]+=d[k]); });
+    Object.keys(agg).forEach(k=> agg[k] = +(agg[k]/PRES_LIST.length).toFixed(k==='lifeExp'?1:0));
+    return agg;
+  }
+  const d = DATA_PRES[pres];
+  return {
+    lifeExp: +d.lifeExp.toFixed(1),
+    vacc: Math.round(d.vacc),
+    infantMortality: Math.round(d.infantMortality),
+    satisfaction: Math.round(d.satisfaction)
+  };
+}
 
-<!-- 13. Urgences et Catastrophes Sanitaires -->
-<div id="urgences" class="mb-12">
-    <h2 class="text-2xl font-bold text-ivoire-blue mb-6 border-b pb-2">13. Urgences et Catastrophes Sanitaires</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Capacités d'urgence</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Lits réanimation</span>
-                    <span class="font-medium">248</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Lits urgences</span>
-                    <span class="font-medium">1,425</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Ambulances fonctionnelles</span>
-                    <span class="font-medium">68%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Temps réponse urgences</span>
-                    <span class="font-medium">38 min</span>
-                </div>
-            </div>
+function renderKPIs(pres){
+  const kpiWrap = document.getElementById('kpiWrap');
+  const data = computeAggregated(pres);
+  kpiWrap.innerHTML = '';
+  KPI_CFG.forEach(k => {
+    const v = data[k.key];
+    const c = KPI_COLORS[k.color];
+    const card = document.createElement('div');
+    card.className = 'bg-white dark:bg-white/5 rounded-xl shadow-md p-6 border border-gray-100 dark:border-white/10';
+    card.innerHTML = `
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 dark:text-gray-400 text-sm">${k.label}</p>
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100">${k.fmt(v)}</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">${pres==='ALL'?'Moyenne nationale':'PRES sélectionné'}</p>
         </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Préparation catastrophes</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Plans urgence actualisés</span>
-                    <span class="font-medium">72%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Simulations réalisées</span>
-                    <span class="font-medium">45%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Stocks stratégiques</span>
-                    <span class="font-medium">58%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Équipes formées urgences</span>
-                    <span class="font-medium">64%</span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="bg-white rounded-xl shadow-md p-6">
-            <h3 class="text-lg font-semibold text-gray-800 mb-4">Résilience système</h3>
-            <div class="space-y-3">
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Indice de préparation OMS</span>
-                    <span class="font-medium">54%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Couverture zones à risque</span>
-                    <span class="font-medium">68%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Coordination intersectorielle</span>
-                    <span class="font-medium">42%</span>
-                </div>
-                <div class="flex justify-between">
-                    <span class="text-gray-600">Alertes précoces fonctionnelles</span>
-                    <span class="font-medium">75%</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-        <!-- Footer -->
-        <footer class="mt-12 pt-8 border-t border-gray-200">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <p class="text-gray-600">© 2023 Ministère de la Santé et de l'Hygiène Publique - Côte d'Ivoire</p>
-                </div>
-                <div class="flex space-x-4">
-                    <a href="#" class="text-gray-600 hover:text-ivoire-blue"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-gray-600 hover:text-ivoire-blue"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="text-gray-600 hover:text-ivoire-blue"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
-        </footer>
-    </main>
+        <div class="p-3 rounded-full" style="background:${c.bg}"><i class="fas ${k.icon}" style="color:${c.text}"></i></div>
+      </div>
+      <span class="block mt-4 h-1 rounded" style="background:${c.hex}"></span>`;
+    kpiWrap.appendChild(card);
+  });
+}
+renderKPIs('ALL');
 
-    <script>
-        // Chart.js configurations
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mortality Chart
-            const mortalityCtx = document.getElementById('mortalityChart').getContext('2d');
-            const mortalityChart = new Chart(mortalityCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Paludisme', 'VIH/SIDA', 'Tuberculose', 'Cancer', 'Cardiovasculaires', 'Diabète'],
-                    datasets: [{
-                        label: 'Taux de mortalité (%)',
-                        data: [15.2, 3.8, 2.1, 6.7, 11.5, 4.3],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 206, 86, 0.7)',
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(153, 102, 255, 0.7)',
-                            'rgba(255, 159, 64, 0.7)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Pourcentage (%)'
-                            }
-                        }
-                    }
-                }
-            });
+// ===================== TABLES (Regions & Districts) =====================
+function renderRegionTable(){
+  const body = document.getElementById('regionPresBody');
+  body.innerHTML = '';
+  Object.entries(REGION_TO_PRES)
+    .sort(([a],[b])=>a.localeCompare(b))
+    .forEach(([region,pres])=>{
+      const tr = document.createElement('tr');
+      tr.className = 'border-b border-gray-100 dark:border-white/10';
+      tr.innerHTML = `<td class="p-2">${region}</td><td class="p-2">${pres}</td>`;
+      body.appendChild(tr);
+    });
+}
+renderRegionTable();
 
-            // Vaccination Chart
-            const vaccinationCtx = document.getElementById('vaccinationChart').getContext('2d');
-            const vaccinationChart = new Chart(vaccinationCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Abidjan', 'Bas-Sassandra', 'Comoé', 'Denguélé', 'Gôh-Djiboua', 'Lacs', 'Lagunes', 'Montagnes', 'Sassandra-Marahoué', 'Savanes', 'Vallée du Bandama', 'Woroba', 'Yamoussoukro', 'Zanzan'],
-                    datasets: [{
-                        label: 'Couverture vaccinale (%)',
-                        data: [89, 72, 68, 65, 74, 71, 85, 63, 70, 61, 69, 64, 82, 66],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.7)',
-                            'rgba(54, 162, 235, 0.7)',
-                            'rgba(255, 206, 86, 0.7)',
-                            'rgba(75, 192, 192, 0.7)',
-                            'rgba(153, 102, 255, 0.7)',
-                            'rgba(255, 159, 64, 0.7)',
-                            'rgba(199, 199, 199, 0.7)',
-                            'rgba(83, 102, 255, 0.7)',
-                            'rgba(40, 159, 64, 0.7)',
-                            'rgba(210, 99, 132, 0.7)',
-                            'rgba(54, 162, 135, 0.7)',
-                            'rgba(155, 106, 86, 0.7)',
-                            'rgba(175, 92, 192, 0.7)',
-                            'rgba(153, 202, 155, 0.7)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'right',
-                        }
-                    }
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+function renderDistricts(pres){
+  const body = document.getElementById('districtBody');
+  body.innerHTML = '';
+  if(pres==='ALL'){ body.innerHTML = '<tr><td colspan="5" class="p-2 text-gray-500 dark:text-gray-400">Sélectionnez un PRES pour voir le détail des districts.</td></tr>'; return; }
+  const rows = sampleDistricts(pres);
+  rows.forEach(r=>{
+    const tr = document.createElement('tr');
+    tr.className = 'border-b border-gray-100 dark:border-white/10';
+    tr.innerHTML = `<td class="p-2">${r.name}</td>
+                    <td class="p-2">${r.vacc}%</td>
+                    <td class="p-2">${r.mort}‰</td>
+                    <td class="p-2">${r.sat}%</td>
+                    <td class="p-2">${r.access}</td>`;
+    body.appendChild(tr);
+  });
+}
+renderDistricts('ALL');
+
+// ===================== CHARTS (Chart.js) =====================
+let coverageByPRES, infantMortalityByPRES, presRadar, populationShare, quarterlyTrend, ncdByPres;
+
+function baseColors(){
+  const dark = document.documentElement.classList.contains('dark');
+  return {
+    grid: dark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.08)',
+    text: dark ? 'rgba(255,255,255,0.9)' : '#111827'
+  };
+}
+
+function buildCoverageByPRES(){
+  const ctx = document.getElementById('chartCoverageByPRES').getContext('2d');
+  const labels = PRES_LIST;
+  const data = labels.map(l=> DATA_PRES[l].vacc);
+  return new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [{ label:'Couverture (%)', data, backgroundColor: 'rgba(51,204,102,.7)', borderRadius: 8 }]},
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, max:100, grid:{ color: baseColors().grid } }, x:{ grid:{ display:false } } }, plugins:{ legend:{ labels:{ color: baseColors().text } } } }
+  });
+}
+
+function buildInfantMortalityByPRES(){
+  const ctx = document.getElementById('chartInfantMortalityByPRES').getContext('2d');
+  const labels = PRES_LIST;
+  const data = labels.map(l=> DATA_PRES[l].infantMortality);
+  return new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [{ label:'Pour 1000 naissances vivantes', data, backgroundColor: 'rgba(255,102,0,.7)', borderRadius: 8 }]},
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, grid:{ color: baseColors().grid } }, x:{ grid:{ display:false } } }, plugins:{ legend:{ labels:{ color: baseColors().text } } } }
+  });
+}
+
+function buildPresRadar(pres){
+  const ctx = document.getElementById('chartPresRadar').getContext('2d');
+  const d = pres==='ALL' ? computeAggregated('ALL') : DATA_PRES[pres];
+  return new Chart(ctx, {
+    type: 'radar',
+    data: {
+      labels: ['Vaccination','Mortalité inf. (inv)','Satisfaction','Accès (inv)'],
+      datasets: [{
+        label: pres,
+        data: [d.vacc, 120-d.infantMortality, d.satisfaction, 20-d.accessKm],
+        borderColor: '#0099CC',
+        backgroundColor: '#0099CC22',
+        pointBackgroundColor: '#0099CC'
+      }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ r:{ angleLines:{ color: baseColors().grid }, grid:{ color: baseColors().grid }, pointLabels:{ color: baseColors().text } } }, plugins:{ legend:{ labels:{ color: baseColors().text } } } }
+  });
+}
+
+function buildPopulationShare(){
+  const ctx = document.getElementById('chartPopulationShare').getContext('2d');
+  const labels = PRES_LIST;
+  const data = labels.map(l=> DATA_PRES[l].popShare);
+  return new Chart(ctx, {
+    type: 'doughnut',
+    data: { labels, datasets: [{ data, backgroundColor: ['#0099CC','#33CC66','#FF6600','#9966CC','#10b981','#f59e0b','#3b82f6','#ef4444','#8b5cf6','#14b8a6'] }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'right', labels:{ color: baseColors().text } } } }
+  });
+}
+
+function buildQuarterlyTrend(){
+  const ctx = document.getElementById('chartQuarterlyTrend').getContext('2d');
+  return new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['T1','T2','T3','T4'],
+      datasets: [
+        { label:'Consultations (M)', data:[3.8,4.1,4.3,4.5], borderColor:'#3b82f6', backgroundColor:'#3b82f622', fill:true, tension:.35 },
+        { label:'Hospitalisations (k)', data:[112,118,121,125], borderColor:'#ef4444', backgroundColor:'#ef444422', fill:true, tension:.35 },
+        { label:'DTP3 (%)', data:[78,80,81,82], borderColor:'#10b981', backgroundColor:'#10b98122', fill:true, tension:.35 }
+      ]
+    },
+    options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:false, grid:{ color: baseColors().grid } }, x:{ grid:{ display:false } } }, plugins:{ legend:{ labels:{ color: baseColors().text } } } }
+  });
+}
+
+function buildNCDByPRES(){
+  const ctx = document.getElementById('chartNCDByPRES').getContext('2d');
+  const labels = PRES_LIST;
+  const hta = labels.map((_,i)=> 18 + (i*1.5 % 6));   // HTA simulée (%)
+  const diab = labels.map((_,i)=> 6 + (i*1.1 % 4));   // Diabète simulé (%)
+  return new Chart(ctx, {
+    type: 'bar',
+    data: { labels, datasets: [
+      { label:'HTA (%)', data: hta, backgroundColor:'rgba(99,102,241,.75)', borderRadius:8 },
+      { label:'Diabète (%)', data: diab, backgroundColor:'rgba(16,185,129,.75)', borderRadius:8 }
+    ]},
+    options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, grid:{ color: baseColors().grid } }, x:{ grid:{ display:false } } }, plugins:{ legend:{ labels:{ color: baseColors().text } } } }
+  });
+}
+
+coverageByPRES       = buildCoverageByPRES();
+infantMortalityByPRES= buildInfantMortalityByPRES();
+presRadar            = buildPresRadar('ALL');
+populationShare      = buildPopulationShare();
+quarterlyTrend       = buildQuarterlyTrend();
+ncdByPres            = buildNCDByPRES();
+
+// ===================== EVENTS =====================
+presSelect.addEventListener('change', ()=>{
+  const pres = presSelect.value;
+  populateRegionsFor(pres);
+  renderKPIs(pres);
+  if(presRadar){ presRadar.destroy(); }
+  presRadar = buildPresRadar(pres);
+  renderDistricts(pres);
+});
+
+// Recolor charts on theme change
+window.addEventListener('themechange', ()=>{
+  [coverageByPRES, infantMortalityByPRES, presRadar, populationShare, quarterlyTrend, ncdByPres].forEach(ch=> ch?.destroy());
+  coverageByPRES       = buildCoverageByPRES();
+  infantMortalityByPRES= buildInfantMortalityByPRES();
+  presRadar            = buildPresRadar(presSelect.value||'ALL');
+  populationShare      = buildPopulationShare();
+  quarterlyTrend       = buildQuarterlyTrend();
+  ncdByPres            = buildNCDByPRES();
+});
+</script>
+{% endblock %}

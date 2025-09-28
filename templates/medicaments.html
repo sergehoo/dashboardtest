@@ -1,0 +1,267 @@
+{% extends 'base_dashboard.html' %}
+
+{% block title %}Médicaments - Tableau de Bord National de la Santé{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+  <!-- HEADER -->
+  <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+    <div>
+      <h1 class="text-3xl font-extrabold text-ivoire-darkgreen">Médicaments, Vaccins & Consommables</h1>
+      <p class="text-gray-500">Vue consolidée · mise à jour {{ last_update|default:"--/--/----" }}</p>
+    </div>
+    <div class="flex flex-wrap gap-2 items-center">
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Période : 2025 (YTD)</option>
+        <option>2024</option>
+        <option>2023</option>
+      </select>
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Niveau : National</option>
+        <option>Régional</option>
+        <option>District</option>
+      </select>
+      <select class="border rounded-lg px-3 py-2 text-sm">
+        <option>Chaîne : Tous</option>
+        <option>Pharmacie centrale</option>
+        <option>District</option>
+        <option>CSU</option>
+        <option>CHU</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- KPI STRIP 1 -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-blue">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Disponibilité essentiels</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_essentiels|default:"79%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +6% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-blue/10 p-3 rounded-full"><i class="fas fa-pills text-ivoire-blue text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-green">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Vaccins disponibles</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_vaccins|default:"85%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +8% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-green/10 p-3 rounded-full"><i class="fas fa-syringe text-ivoire-green text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-orange">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Sites en rupture</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_rupture|default:"8.2%" }}</h3>
+          <p class="text-red-600 text-sm mt-1"><i class="fas fa-arrow-down"></i> -3% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-orange/10 p-3 rounded-full"><i class="fas fa-exclamation-triangle text-ivoire-orange text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-ivoire-purple">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Appro en délais</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_on_time|default:"74%" }}</h3>
+          <p class="text-green-600 text-sm mt-1"><i class="fas fa-arrow-up"></i> +9% vs 2024</p>
+        </div>
+        <div class="bg-ivoire-purple/10 p-3 rounded-full"><i class="fas fa-truck text-ivoire-purple text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KPI STRIP 2 (Nouveaux indicateurs) -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-emerald-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Taux de wastage vaccins</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_wastage|default:"6.4%" }}</h3>
+          <p class="text-gray-500 text-xs">Objectif < 5%</p>
+        </div>
+        <div class="bg-emerald-500/10 p-3 rounded-full"><i class="fas fa-biohazard text-emerald-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-sky-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Taux de remplissage commandes</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_fillrate|default:"88%" }}</h3>
+          <p class="text-gray-500 text-xs">Commandes livrées complètes</p>
+        </div>
+        <div class="bg-sky-500/10 p-3 rounded-full"><i class="fas fa-clipboard-check text-sky-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-rose-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Délai moyen d'appro</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_leadtime|default:"21 j" }}</h3>
+          <p class="text-gray-500 text-xs">Derniers 90 jours</p>
+        </div>
+        <div class="bg-rose-500/10 p-3 rounded-full"><i class="fas fa-shipping-fast text-rose-600 text-xl"></i></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6 border-l-4 border-amber-500">
+      <div class="flex justify-between items-start">
+        <div>
+          <p class="text-gray-500 text-sm">Chaîne du froid opérationnelle</p>
+          <h3 class="text-2xl font-bold text-gray-800">{{ kpi_coldchain|default:"92%" }}</h3>
+          <p class="text-gray-500 text-xs">Réfrigérateurs OK</p>
+        </div>
+        <div class="bg-amber-500/10 p-3 rounded-full"><i class="fas fa-thermometer-half text-amber-600 text-xl"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS BLOCK 1 -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Disponibilité par catégorie</h2>
+      <div class="h-80"><canvas id="medicationAvailabilityChart"></canvas></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Évolution des ruptures de stock</h2>
+      <div class="h-80"><canvas id="stockOutageTrendChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- CHARTS BLOCK 2 (Nouveaux) -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Ruptures par niveau de soins</h2>
+      <div class="h-80"><canvas id="stockoutByLevelChart"></canvas></div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h2 class="text-xl font-bold text-gray-800 mb-4">Livraisons à l'heure</h2>
+      <div class="h-80"><canvas id="onTimeDeliveryChart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- DÉTAILS INDICATEURS -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Produits critiques</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Antibiotiques essentiels</span><span class="font-medium">{{ dispo_abx|default:"76%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Antirétroviraux</span><span class="font-medium">{{ dispo_arv|default:"88%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Antipaludéens</span><span class="font-medium">{{ dispo_anti_mal|default:"82%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Vaccins de routine</span><span class="font-medium">{{ dispo_vaccins|default:"85%" }}</span></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Gestion des stocks</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Taux de rotation</span><span class="font-medium">{{ stock_turnover|default:"6.8" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Pertes / péremption</span><span class="font-medium">{{ stock_losses|default:"4.2%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Stock de sécurité atteint</span><span class="font-medium">{{ stock_safety|default:"68%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Commandes en retard</span><span class="font-medium">{{ orders_late|default:"12%" }}</span></div>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Qualité & sécurité</h3>
+      <div class="space-y-3">
+        <div class="flex justify-between"><span class="text-gray-600">Lots contrôlés</span><span class="font-medium">{{ qc_lots|default:"92%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Contrefaçons détectées</span><span class="font-medium">{{ qc_fake|default:"1.8%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Bon usage prescrit</span><span class="font-medium">{{ qc_rational|default:"74%" }}</span></div>
+        <div class="flex justify-between"><span class="text-gray-600">Patients informés</span><span class="font-medium">{{ qc_patient_info|default:"65%" }}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP LISTS -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">Top 10 produits en rupture</h3>
+      <ol class="list-decimal pl-5 space-y-2">
+        {% for item in top_stockouts %}
+          <li class="flex justify-between"><span class="text-gray-600">{{ item.produit }}</span><span class="font-semibold text-red-600">{{ item.taux }}%</span></li>
+        {% empty %}
+          {% for i in "1234567890" %}
+            <li class="flex justify-between"><span class="text-gray-600">Produit {{ forloop.counter }}</span><span class="font-semibold text-red-600">{{ 5|add:forloop.counter }}%</span></li>
+          {% endfor %}
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="bg-white rounded-xl shadow-md p-6">
+      <h3 class="text-lg font-semibold text-gray-800 mb-4">ABC Analyse — part valeur</h3>
+      <div class="h-72"><canvas id="abcValueChart"></canvas></div>
+      <p class="text-sm text-gray-500 mt-3">A (80% valeur / 10% items) · B (15% / 20%) · C (5% / 70%)</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Disponibilité par catégorie
+  new Chart(document.getElementById('medicationAvailabilityChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Antibiotiques', 'Antipaludéens', 'ARV', 'Vaccins', 'Chroniques', 'Urgence'],
+      datasets: [{
+        label: 'Disponibilité (%)',
+        data: [76, 82, 88, 85, 71, 78],
+        backgroundColor: [
+          'rgba(0,153,204,.7)','rgba(51,204,102,.7)','rgba(255,102,0,.7)','rgba(153,102,255,.7)','rgba(255,206,86,.7)','rgba(75,192,192,.7)'
+        ],
+        borderRadius: 8
+      }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100, title:{display:true,text:'Disponibilité (%)'} }, x:{ grid:{display:false} } } }
+  });
+
+  // Évolution des ruptures de stock
+  new Chart(document.getElementById('stockOutageTrendChart').getContext('2d'), {
+    type: 'line',
+    data: {
+      labels: ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'],
+      datasets: [{
+        label: 'Ruptures de stock (%)', data: [12.5,11.8,10.2,9.8,8.5,7.9,8.2,7.5,8.8,8.1,7.9,8.2],
+        borderColor: 'rgb(255,102,0)', backgroundColor: 'rgba(255,102,0,.12)', tension:.35, fill:true
+      }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true, title:{display:true, text:'Taux de rupture (%)'} }, x:{ grid:{display:false} } } }
+  });
+
+  // Ruptures par niveau de soins (stacked)
+  new Chart(document.getElementById('stockoutByLevelChart').getContext('2d'), {
+    type: 'bar',
+    data: {
+      labels: ['Abidjan', 'Nord', 'Ouest', 'Est', 'Centre'],
+      datasets: [
+        { label: 'Pharmacie centrale', data: [4, 5, 6, 5, 4], backgroundColor: 'rgba(99,102,241,.8)', borderRadius: 6 },
+        { label: 'District', data: [7, 9, 10, 8, 7], backgroundColor: 'rgba(14,165,233,.8)', borderRadius: 6 },
+        { label: 'CSU', data: [9, 12, 14, 11, 10], backgroundColor: 'rgba(234,88,12,.8)', borderRadius: 6 }
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'top' } },
+      scales:{ x:{ stacked:true, grid:{display:false} }, y:{ stacked:true, beginAtZero:true, max:20, title:{display:true,text:'Sites en rupture (%)'} } }
+    }
+  });
+
+  // Livraisons à l'heure (doughnut)
+  new Chart(document.getElementById('onTimeDeliveryChart').getContext('2d'), {
+    type: 'doughnut',
+    data: {
+      labels: ['À l\'heure','Retard 1-2 sem.','> 2 sem.'],
+      datasets: [{ data: [74, 18, 8], backgroundColor: ['#10b981','#f59e0b','#ef4444'] }]
+    },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'right' } } }
+  });
+
+  // ABC Value — pie
+  new Chart(document.getElementById('abcValueChart').getContext('2d'), {
+    type: 'pie',
+    data: { labels:['A','B','C'], datasets:[{ data:[80,15,5], backgroundColor:['#4f46e5','#06b6d4','#a3e635'] }] },
+    options: { responsive:true, maintainAspectRatio:false, plugins:{ legend:{ position:'right' } } }
+  });
+});
+</script>
+{% endblock %}

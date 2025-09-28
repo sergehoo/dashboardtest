@@ -1,0 +1,61 @@
+version: "3.9"
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: >
+      gunicorn djangoProject.wsgi:application
+      --bind 0.0.0.0:8000
+      --workers 2 --threads 2
+      --timeout 60
+      --log-level info
+    env_file: [.env]
+    environment:
+      # Ces deux flags rendent l'exécution idempotente (OK à chaque démarrage)
+      RUN_MIGRATIONS: "1"
+      RUN_COLLECTSTATIC: "1"
+    # pour le dev (hot-reload non géré avec gunicorn), commente en prod si tu veux un container hermétique
+    volumes:
+      - .:/app
+      - static_volume:/app/static
+      - media_volume:/app/media
+    expose:
+      - "8000"
+    restart: unless-stopped
+    networks: [proxy]
+    healthcheck:
+      # simple check TCP (ne dépend pas d'une route /healthz)
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/8000'"]
+      interval: 10s
+      timeout: 3s
+      retries: 12
+      start_period: 30s
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=proxy
+
+      # Router HTTP (80) -> redirection vers HTTPS
+      - traefik.http.routers.dj-web.rule=Host(`example.com`,`www.example.com`)
+      - traefik.http.routers.dj-web.entrypoints=web
+      - traefik.http.routers.dj-web.middlewares=dj-redirect-https
+      - traefik.http.middlewares.dj-redirect-https.redirectscheme.scheme=https
+
+      # Router HTTPS (443)
+      - traefik.http.routers.dj-secure.rule=Host(`example.com`,`www.example.com`)
+      - traefik.http.routers.dj-secure.entrypoints=websecure
+      - traefik.http.routers.dj-secure.tls=true
+      - traefik.http.routers.dj-secure.tls.certresolver=lets
+
+      # Service backend : HTTP vers Gunicorn:8000
+      - traefik.http.services.dj-svc.loadbalancer.server.port=8000
+      - traefik.http.services.dj-svc.loadbalancer.server.scheme=http
+
+networks:
+  proxy:
+    external: true
+
+volumes:
+  static_volume:
+  media_volume:
