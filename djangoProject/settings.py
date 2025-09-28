@@ -84,8 +84,8 @@ DATABASES = {
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
-ALLOWED_HOSTS = ["127.0.0.1", "tableau.afriqconsulting.store", "localhost"]
-CSRF_TRUSTED_ORIGINS = ["https://tableau.afriqconsulting.store/", "http://tableau.afriqconsulting.store/"]
+ALLOWED_HOSTS = ["127.0.0.1", "afriqconsulting.org", "localhost"]
+CSRF_TRUSTED_ORIGINS = ["https://afriqconsulting.org", "http://afriqconsulting.org"]
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
