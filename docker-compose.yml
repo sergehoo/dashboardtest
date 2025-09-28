@@ -37,13 +37,13 @@ services:
       - traefik.docker.network=proxy
 
       # Router HTTP (80) -> redirection vers HTTPS
-      - traefik.http.routers.dj-web.rule=Host(`tableau.afriqconsulting.store`,`tableau.afriqconsulting.store`)
+      - traefik.http.routers.dj-web.rule=Host(`tableau.afriqconsulting.store`)
       - traefik.http.routers.dj-web.entrypoints=web
       - traefik.http.routers.dj-web.middlewares=dj-redirect-https
       - traefik.http.middlewares.dj-redirect-https.redirectscheme.scheme=https
 
       # Router HTTPS (443)
-      - traefik.http.routers.dj-secure.rule=Host(`tableau.afriqconsulting.store`,`tableau.afriqconsulting.store`)
+      - traefik.http.routers.dj-secure.rule=Host(`tableau.afriqconsulting.store`)
       - traefik.http.routers.dj-secure.entrypoints=websecure
       - traefik.http.routers.dj-secure.tls=true
       - traefik.http.routers.dj-secure.tls.certresolver=lets
