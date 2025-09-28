@@ -27,7 +27,8 @@ services:
     networks: [proxy]
     healthcheck:
       # simple check TCP (ne dépend pas d'une route /healthz)
-      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/8000'"]
+#      test: ["CMD-SHELL", "bash -c '</dev/tcp/127.0.0.1/8000'"]
+      test: [ "CMD-SHELL", "python - <<'PY'\nimport urllib.request,sys\ntry:\n  urllib.request.urlopen('http://127.0.0.1:8000/healthz', timeout=2)\n  sys.exit(0)\nexcept Exception:\n  sys.exit(1)\nPY" ]
       interval: 10s
       timeout: 3s
       retries: 12

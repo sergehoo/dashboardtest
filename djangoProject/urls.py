@@ -4,8 +4,11 @@ from django.conf.urls.static import static
 from django.urls import path
 
 from dashboard import views
-
+def healthz(_):
+    # ⚡ rapide : sans requête DB
+    return JsonResponse({"status": "ok"})
 urlpatterns = [
+                  path("healthz", healthz),
                   path('', views.Home.as_view(), name='home'),
                   path('sante-population/', views.SantePopulationView.as_view(), name='sante_population'),
                   path('acces-services/', views.AccesServicesView.as_view(), name='acces_services'),
