@@ -2,7 +2,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path
-
+from django.http import JsonResponse
 from dashboard import views
 def healthz(_):
     # ⚡ rapide : sans requête DB
